@@ -1,21 +1,37 @@
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { Card, Container } from "./styles";
+
+interface FooterContentProps{
+    list: number[]
+}
  
-const FooterContent: FC = () => {
+const FooterContent: FC<FooterContentProps> = (props) => {
+    const {list} = props
+
+    const [selectedItem, setSelectedItem] = useState<number|string>()
+    
+    const select = useCallback((item: number) => {
+        setSelectedItem(item)
+    }, [selectedItem])
+
     return (
         <Container>
-            <Card><h1>0</h1></Card>
-            <Card><h1>1</h1></Card>
-            <Card><h1>2</h1></Card>
-            <Card><h1>3</h1></Card>
-            <Card><h1>4</h1></Card>
-            <Card><h1>5</h1></Card>
-            <Card><h1>6</h1></Card>
-            <Card><h1>7</h1></Card>
-            <Card><h1>8</h1></Card>
-            <Card><h1>9</h1></Card>
-            <Card><h1>10</h1></Card>
-            <Card><h1>?</h1></Card>
+            {list.map(item => (
+                <Card 
+                    key={item}
+                    onClick={() => select(item)}
+                    style={{
+                        borderColor: `${item === selectedItem ? '#0069d9' : '#bbbbc4'}`
+                    }}
+                >
+                    <h1>{item}</h1>
+                </Card>
+            ))}
+            <Card
+                onClick={() => console.log('?')}
+            >
+                <h1>?</h1>
+            </Card>
         </Container>
     );
 }

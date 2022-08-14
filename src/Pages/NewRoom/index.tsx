@@ -3,8 +3,12 @@ import { FcGoogle } from 'react-icons/fc'
 import { useCallback, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {app} from '../../service/firebase'
+
 
 function NewRoom() {
+    const provider = new GoogleAuthProvider();
     const navigate = useNavigate()
 
     const [code, setCode] = useState<string>()
@@ -13,6 +17,10 @@ function NewRoom() {
         event.preventDefault()
         navigate(`/room/${code}`)
     }, [code])
+
+    // function signIn(){
+        
+    // }
 
     return ( 
         <Container>

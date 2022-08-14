@@ -19,6 +19,8 @@ export const Card = styled.div`
     width: 50px;
     height: 70px;
 
-    border: solid 1px #bbbbc4;
+    border: solid 2px ${props => props.style?.borderColor || '#bbbbc4'};
     border-radius: 5px;
+
+    cursor: pointer;
 `
