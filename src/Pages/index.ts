@@ -1,5 +1,7 @@
-import NewRom from './NewRom/index';
+import NewRoom from './NewRoom/index';
+import Room from './Room/index';
 
 export {
-    NewRom
+    NewRoom,
+    Room
 }

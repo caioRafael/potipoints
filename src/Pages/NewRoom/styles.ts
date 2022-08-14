@@ -47,6 +47,8 @@ export const InputRoomCode = styled.input`
     border-radius: 5px;
     background: transparent;
 
+    margin-bottom: 20px;
+
     outline: 0;
 
     font-size: 15px;
@@ -56,24 +58,4 @@ export const InputRoomCode = styled.input`
     padding: 0 20px;
 
     cursor: pointer;
-`
-
-export const Button = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 15px;
-    width: 350px;
-    height: 50px;
-
-    border-radius: 5px;
-    margin-top: 20px;
-
-    background: #0069d9;
-    color: #fff;
-
-    &:hover{
-        transition: 0.3s;
-        opacity: 0.8;
-    }
 `
