@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: ${props => props.style?.width || '300px'};
     height: 50px;
+
+    z-index: 10;
 `
 
 export const ButtonDropdown = styled.button`

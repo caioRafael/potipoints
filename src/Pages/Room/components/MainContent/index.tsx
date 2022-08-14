@@ -1,22 +1,108 @@
 import { FC } from "react";
-import { Container } from "./styles";
+import { Image } from "../../../../components";
+import { Card, Container } from "./styles";
  
 const MainContent: FC = () => {
     return (
         <Container>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
-            <h1>ola mundo</h1>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
+            <Card>
+            <Image 
+                url="https://avatars.githubusercontent.com/u/29779941?v=4"
+                name="avatar"    
+            />
+            <h1>5</h1>
+            </Card>
         </Container>
     );
 }
