@@ -1,5 +1,5 @@
 import { Content } from "./styles";
-import {MainContent, HeaderContent, FooterContent} from "../";
+import { HeaderContent, MainContent, FooterContent} from "../";
 import { useState } from 'react';
 
  
@@ -9,8 +9,8 @@ const ContentRoom = () => {
     return (
         <Content>
             <HeaderContent setList={setList}/>
-            <MainContent/>
-            <FooterContent list={list}/>
+            <MainContent list={list}/>
+            <FooterContent/>
         </Content>
     );
 }

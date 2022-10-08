@@ -1,11 +1,11 @@
 import ContentRoom from './ContentRoom/index';
-import MainContent from './MainContent/index';
-import HeaderContent from './HeaderContent/index';
 import FooterContent from './FooterContent/index';
+import HeaderContent from './HeaderContent/index';
+import MainContent from './MainContent/index';
 
 export {
     ContentRoom,
-    MainContent,
+    FooterContent,
     HeaderContent,
-    FooterContent
+    MainContent
 }

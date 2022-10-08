@@ -1,15 +1,13 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.footer`
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 50px;
-    gap: 20px;
-
+    gap: 15px;
     width: 100%;
+    height: 120px;
 `
 
 export const Card = styled.div`
@@ -18,9 +16,11 @@ export const Card = styled.div`
     align-items:  center;
     justify-content: center;
     gap: 5px;
-    width: 80px;
-    height: 100px;
+    width: 50px;
+    height: 70px;
 
-    border: solid 1px #bbbbc4;
+    border: solid 2px ${props => props.style?.borderColor || '#bbbbc4'};
     border-radius: 5px;
+
+    cursor: pointer;
 `

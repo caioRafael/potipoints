@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
-export const Container = styled.footer`
+export const Container = styled.div`
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 50px;
+    gap: 20px;
+
     width: 100%;
-    height: 120px;
 `
 
 export const Card = styled.div`
@@ -16,11 +18,24 @@ export const Card = styled.div`
     align-items:  center;
     justify-content: center;
     gap: 5px;
-    width: 50px;
-    height: 70px;
+    width: 100px;
+    height: 120px;
+    
+    strong{
+        margin-top: 5px;
+    }
+    
+    div{
+        display: flex;
+        flex-direction: column;
+        align-items:  center;
+        justify-content: center;
+        padding: 10px;
+        gap: 2px;
+        width: 80px;
+        height: 100px;
+        border-radius: 5px;
 
-    border: solid 2px ${props => props.style?.borderColor || '#bbbbc4'};
-    border-radius: 5px;
-
-    cursor: pointer;
+        border: solid 1px #bbbbc4;
+    }
 `

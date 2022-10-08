@@ -3,24 +3,46 @@ import { FcGoogle } from 'react-icons/fc'
 import { useCallback, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider,  } from "firebase/auth";
 import {app} from '../../service/firebase'
+import { useAuth } from '../../hooks/useAuth';
 
 
 function NewRoom() {
+    const {signInWithGoogle} = useAuth()
     const provider = new GoogleAuthProvider();
     const navigate = useNavigate()
 
+    const {options} = app
+
+    console.log(options)
     const [code, setCode] = useState<string>()
 
-    const enterRoom = useCallback((event: FormEvent) => {
+    const enterRoom = useCallback(async (event: FormEvent) => {
         event.preventDefault()
+        await signInWithGoogle()
         navigate(`/room/${code}`)
     }, [code])
 
-    // function signIn(){
-        
-    // }
+    async function signIn(){
+        const auth = getAuth()
+
+        const result = await signInWithPopup(auth, provider);
+    
+        if (result.user) {
+          const { displayName, photoURL, uid } = result.user
+    
+          if (!displayName || !photoURL) {
+            throw new Error('Missing information from Google Account.');
+          }
+    
+          console.log({
+            id: uid,
+            name: displayName,
+            avatar: photoURL
+          })
+        }
+    }
 
     return ( 
         <Container>
