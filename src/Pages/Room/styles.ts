@@ -29,3 +29,9 @@ export const UserContent = styled.div`
     gap: 10px;
 `
 
+export const IconButton = styled.button`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+`

@@ -1,7 +1,7 @@
 import { 
     BrowserRouter,
     Routes as Switch,
-    Route
+    Route,
 } from 'react-router-dom'
 import { NewRoom, Room } from './Pages';
 

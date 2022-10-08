@@ -3,51 +3,41 @@ import { FcGoogle } from 'react-icons/fc'
 import { useCallback, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components';
-import { getAuth, signInWithPopup, GoogleAuthProvider,  } from "firebase/auth";
-import {app} from '../../service/firebase'
+// import { getAuth, signInWithPopup, GoogleAuthProvider,  } from "firebase/auth";
+// import {app} from '../../service/firebase'
 import { useAuth } from '../../hooks/useAuth';
-
+import { useEffect } from 'react';
 
 function NewRoom() {
-    const {signInWithGoogle} = useAuth()
-    const provider = new GoogleAuthProvider();
+    const {signInWithGoogle, code: roomCode} = useAuth()
+    // const provider = new GoogleAuthProvider();
     const navigate = useNavigate()
 
-    const {options} = app
+    // const {options} = app
 
-    console.log(options)
     const [code, setCode] = useState<string>()
+
+    useEffect(() => {
+        if(roomCode) navigate(`/room/${roomCode}`)
+    }, [roomCode])
 
     const enterRoom = useCallback(async (event: FormEvent) => {
         event.preventDefault()
-        await signInWithGoogle()
-        navigate(`/room/${code}`)
-    }, [code])
+        const codeRoute = await signInWithGoogle(code)
+        navigate(`/room/${codeRoute}`)
+    }, [code, roomCode])
 
-    async function signIn(){
-        const auth = getAuth()
-
-        const result = await signInWithPopup(auth, provider);
-    
-        if (result.user) {
-          const { displayName, photoURL, uid } = result.user
-    
-          if (!displayName || !photoURL) {
-            throw new Error('Missing information from Google Account.');
-          }
-    
-          console.log({
-            id: uid,
-            name: displayName,
-            avatar: photoURL
-          })
-        }
-    }
+    const createNewRoom = useCallback(async() => {
+        const codeRoute = await signInWithGoogle()
+        navigate(`/room/${codeRoute}`)
+    }, [roomCode])
 
     return ( 
         <Container>
             <h1>Apontamentos</h1>
-            <GoogleButton>
+            <GoogleButton
+                onClick={() => createNewRoom()}
+            >
                 <FcGoogle size={25}/>
                 Crie um sala com sua conta Google
             </GoogleButton>
