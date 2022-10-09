@@ -13,8 +13,6 @@ function Room() {
   const navigate = useNavigate()
   const { user, signOut } = useAuth();
 
-//   console.log(user)
-
   const exit = useCallback(() => {
     if(window.confirm('Você será deslogado do sistema!')){
         signOut()

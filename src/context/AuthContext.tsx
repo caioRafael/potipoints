@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { auth, database, provider } from "../service/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { getDatabase , ref, set, push, get, child } from "firebase/database";
+import { ref, set, push, get } from "firebase/database";
 
 export interface IRoomUser {
   user_id: string;
@@ -83,7 +83,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     return () => {
       unsubscribe();
     };
-  }, [user]);
+  }, []);
 
   async function signInWithGoogle(code?: string) {
     const newCode = code
@@ -110,7 +110,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       setUser(data);
 
       localStorage.setItem("@points:user", JSON.stringify(data));
-      createNewRoom(newCode, newUser as User);
+      if(code){
+        enterRoom(code)
+      }else{
+        createNewRoom(newCode, newUser as User);
+      }
     }
 
     localStorage.setItem("@points:code", newCode);
@@ -142,13 +146,18 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     await set(newPostRef, initialRoom);
   }
 
-  // async function enterRoom(code: string) {
-  //   const roomRef = ref(getDatabase());
-  //   const existedRoom = await get(child(roomRef, `/rooms/${code}`))
-  //   if(existedRoom){
-  //     console.log(existedRoom)
-  //   }
-  // }
+  function enterRoom(code: string) {
+    const roomRef = ref(database, `/rooms/${code}`);
+    get(roomRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
   return (
     <AuthContext.Provider
