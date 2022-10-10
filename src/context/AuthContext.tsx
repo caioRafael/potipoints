@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { auth, database, provider } from "../service/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { ref, set, push, get } from "firebase/database";
+import { ref, set, push, onValue, DataSnapshot } from "firebase/database";
 
 export interface IRoomUser {
   user_id: string;
@@ -86,7 +86,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }, []);
 
   async function signInWithGoogle(code?: string) {
-    const newCode = code
+    let newCode = code
       ? code
       : Math.floor(Date.now() * Math.random()).toString(16);
 
@@ -111,9 +111,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
       localStorage.setItem("@points:user", JSON.stringify(data));
       if(code){
-        enterRoom(code)
+        enterRoom(code, newUser)
       }else{
-        createNewRoom(newCode, newUser as User);
+        newCode = (await createNewRoom(newCode, newUser as User)).toString();
       }
     }
 
@@ -141,22 +141,33 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     };
 
     setRoom(initialRoom);
-    const roomRef = ref(database, `/rooms/${code}`);
-    const newPostRef = push(roomRef);
-    await set(newPostRef, initialRoom);
+    const roomRef = ref(database, `/rooms`);
+    const newPostRef = await push(roomRef, initialRoom);
+    return newPostRef.key as string
   }
 
-  function enterRoom(code: string) {
+  async function enterRoom(code: string, user: User) {
+    let existedRook: IRoom | null = null
+
+    let roomUser: IRoomUser = {
+      avatar_url: user.avatar,
+      user_id: user.id,
+      name: user.name,
+      email: user.email,
+    };
     const roomRef = ref(database, `/rooms/${code}`);
-    get(roomRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+    onValue(roomRef, (snapshot: DataSnapshot) => {
+      const data = snapshot.val()
+      console.log('value', data)
+      existedRook = data
+    })
+
+    if(!existedRook){
+      throw new Error('room not exist')
+    }
+
+    const addUserInRoomRef = ref(database, `/rooms/${code}/users`);
+    await push(addUserInRoomRef, roomUser );
   }
 
   return (
@@ -173,10 +184,3 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     </AuthContext.Provider>
   );
 }
-
-// const roomRef = database.ref('rooms');
-
-// const firebaseRoom = await roomRef.push({
-//   title: newRoom,
-//   authorId: user?.id,
-// })
