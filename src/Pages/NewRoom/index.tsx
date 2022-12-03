@@ -15,7 +15,7 @@ function NewRoom() {
 
     // const {options} = app
 
-    const [code, setCode] = useState<string>()
+    const [code, setCode] = useState<string>('')
 
     useEffect(() => {
         if(roomCode) navigate(`/room/${roomCode}`)
@@ -30,7 +30,7 @@ function NewRoom() {
     const createNewRoom = useCallback(async() => {
         const codeRoute = await signInWithGoogle()
         navigate(`/room/${codeRoute}`)
-    }, [roomCode])
+    }, [])
 
     return ( 
         <Container>

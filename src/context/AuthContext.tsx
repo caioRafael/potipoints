@@ -111,7 +111,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
       localStorage.setItem("@points:user", JSON.stringify(data));
       if(code){
-        enterRoom(code, newUser)
+        await enterRoom(code, newUser)
       }else{
         newCode = (await createNewRoom(newCode, newUser as User)).toString();
       }
