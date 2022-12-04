@@ -1,9 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { ChangeButton, PrimaryButton } from "../../../../components";
 import Dropdown, { DropdownItem } from "../../../../components/Dropdown";
+import { useRoom } from "../../../../hooks/useRoom";
 import decimal from "../../../../utils/decimal";
 import fibonacci from "../../../../utils/fibonacci";
 import { Container } from "./styles";
+import { useParams } from 'react-router-dom';
+import { useRoomVote } from './../../../../hooks/useRoomVote';
 
 interface HeaderContentProps{
     setList: (list: number[]) => void
@@ -11,6 +14,9 @@ interface HeaderContentProps{
  
 const HeaderContent:FC<HeaderContentProps> = (props) => {
     const {setList} = props
+    const { code } = useParams()
+    const { room, users } = useRoom(code as string)
+    const { setVisibleVote, resetVotes } = useRoomVote()
 
     const [item, setItem] = useState<DropdownItem>(
         {
@@ -31,11 +37,14 @@ const HeaderContent:FC<HeaderContentProps> = (props) => {
         <section>
             <PrimaryButton
                 width={100}
-                text="Revelar"
+                text={room?.result_reveled ? "Ocultar" : "Revelar"}
+                onClick={() => setVisibleVote(code as string, room?.result_reveled as boolean)}
             />
             <ChangeButton
                 width={100}
                 text="Reset"
+                onClick={() => resetVotes(code as string, users)}
+                disabled={!room?.result_reveled}
             />
         </section>
 

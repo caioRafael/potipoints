@@ -4,6 +4,7 @@ import { signInWithPopup } from "firebase/auth";
 import { ref, set, push, onValue, DataSnapshot } from "firebase/database";
 
 export interface IRoomUser {
+  // key?: string;
   user_id: string;
   vote?: string;
   avatar_url: string;
@@ -131,10 +132,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       user_id: user.id,
       name: user.name,
       email: user.email,
+      vote: '?'
     };
 
     let initialRoom: IRoom = {
-      users: [initialRoomUser],
+      users: [],
       code: roomCode,
       result_reveled: false,
       voting_system: "fibonacci",
@@ -144,6 +146,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     setRoom(initialRoom);
     const roomRef = ref(database, `/rooms`);
     const newPostRef = await push(roomRef, initialRoom);
+    //alteração feita para que o id ddo usuário seja a key no banco
+    const enterRoomRef = ref(database, `/rooms/${newPostRef.key}/users/${user.id}`)
+    await set(enterRoomRef, initialRoomUser)
     return newPostRef.key as string
   }
 
@@ -155,6 +160,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       user_id: user.id,
       name: user.name,
       email: user.email,
+      vote: '?'
     };
     const roomRef = ref(database, `/rooms/${code}`);
     onValue(roomRef, (snapshot: DataSnapshot) => {
@@ -167,8 +173,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       throw new Error('room not exist')
     }
 
-    const addUserInRoomRef = ref(database, `/rooms/${code}/users`);
-    await push(addUserInRoomRef, roomUser );
+    //alteração feita para que o id ddo usuário seja a key no banco
+    const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
+    await set(addUserInRoomRef, roomUser );
   }
 
   return (

@@ -7,10 +7,11 @@ interface ChangeButtonProps {
     type?: "button" | "submit" | "reset" | undefined
     onClick?: () => void
     width?: number | string
+    disabled?: boolean
 }
  
 const ChangeButton: FC<ChangeButtonProps> = (props) => {
-    const {text, icon, type, onClick, width} = props
+    const {text, icon, type, onClick, width, disabled = false} = props
     return (
         <Button
             onClick={onClick}
@@ -18,6 +19,7 @@ const ChangeButton: FC<ChangeButtonProps> = (props) => {
             style={{
                 width: width
             }}
+            disabled={disabled}
         >{icon && icon}  {text}</Button>
     );
 }

@@ -6,7 +6,7 @@ import { Card, Container } from "./styles";
  
 const FooterContent: FC = () => {
     const {code} = useParams()
-    const {users} = useRoom(code as string)
+    const {users, room} = useRoom(code as string)
     return (
         <Container>
             {users.map(user => (
@@ -16,7 +16,7 @@ const FooterContent: FC = () => {
                             url={user.avatar_url}
                             name={user.name}    
                         />
-                        <h1>{user.vote || '?'}</h1>
+                        <h1>{room?.result_reveled ? user.vote : '?'}</h1>
                     </div>
                     <strong>{user.name}</strong>
                 </Card>

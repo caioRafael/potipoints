@@ -16,13 +16,14 @@ export function useRoom(codeRoom: string){
         const userList = Object.entries(data.users)
         .map(([key, value]) => {
           return{
-            user_id: key,
+            user_id: value.user_id,
             vote: value.vote,
             avatar_url: value.avatar_url,
             name: value.name.split(' ')[0],
             email: value.email
           }
         })
+        console.log(userList)
         setUsers(userList)
       })
   }, [codeRoom])
