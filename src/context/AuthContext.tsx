@@ -24,6 +24,7 @@ type User = {
   name: string;
   email: string;
   avatar: string;
+  user_code?: string;
 };
 
 type AuthContextType = {
