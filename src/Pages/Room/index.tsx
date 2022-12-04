@@ -1,9 +1,7 @@
-import { getDatabase } from "firebase/database";
 import { Image } from "../../components";
 import { ContentRoom } from "./components";
 import { Container, Header, IconButton, UserContent } from "./styles";
 import { useAuth } from "./../../hooks/useAuth";
-import { app } from "../../service/firebase";
 import { SignOut } from "phosphor-react";
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';

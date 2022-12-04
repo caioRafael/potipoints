@@ -1,140 +1,26 @@
 import { FC } from "react";
+import { useParams } from "react-router-dom";
 import { Image } from "../../../../components";
+import { useRoom } from "../../../../hooks/useRoom";
 import { Card, Container } from "./styles";
  
 const FooterContent: FC = () => {
+    const {code} = useParams()
+    const {users} = useRoom(code as string)
     return (
         <Container>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Rodrigo</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Fabiane</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Adri</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
-            <Card>
-                <div>
-                    <Image 
-                        url="https://avatars.githubusercontent.com/u/29779941?v=4"
-                        name="avatar"    
-                    />
-                    <h1>5</h1>
-                </div>
-                <strong>Caio</strong>
-            </Card>
+            {users.map(user => (
+                <Card key={user.user_id}>
+                    <div>
+                        <Image 
+                            url={user.avatar_url}
+                            name={user.name}    
+                        />
+                        <h1>{user.vote || '?'}</h1>
+                    </div>
+                    <strong>{user.name}</strong>
+                </Card>
+            ))}
         </Container>
     );
 }
