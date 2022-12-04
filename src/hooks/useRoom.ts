@@ -23,7 +23,6 @@ export function useRoom(codeRoom: string){
             email: value.email
           }
         })
-        console.log(userList)
         setUsers(userList)
       })
   }, [codeRoom])

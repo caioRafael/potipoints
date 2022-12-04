@@ -4,9 +4,10 @@ import Dropdown, { DropdownItem } from "../../../../components/Dropdown";
 import { useRoom } from "../../../../hooks/useRoom";
 import decimal from "../../../../utils/decimal";
 import fibonacci from "../../../../utils/fibonacci";
-import { Container } from "./styles";
+import { Container, RoomCode } from "./styles";
 import { useParams } from 'react-router-dom';
 import { useRoomVote } from './../../../../hooks/useRoomVote';
+import {FiCopy} from 'react-icons/fi'
 
 interface HeaderContentProps{
     setList: (list: number[]) => void
@@ -32,6 +33,11 @@ const HeaderContent:FC<HeaderContentProps> = (props) => {
             setList(decimal())
         }
     }, [item])
+
+    function copyRoomCode() {
+        navigator.clipboard.writeText(code as string)
+    }
+
     return (
     <Container>
         <section>
@@ -47,6 +53,13 @@ const HeaderContent:FC<HeaderContentProps> = (props) => {
                 disabled={!room?.result_reveled}
             />
         </section>
+        
+        <RoomCode
+            onClick={copyRoomCode}
+        >
+            <FiCopy size={20}/>
+            {code}
+        </RoomCode>
 
         <Dropdown
             list={ListItems}
