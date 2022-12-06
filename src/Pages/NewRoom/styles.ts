@@ -22,11 +22,11 @@ export const GoogleButton = styled.button`
     width: 350px;
     height: 50px;
 
-    border: solid 1px #bbbbc4;
+    border: solid 1px ${props => props.theme.colors.border};
     border-radius: 5px;
     background: transparent;
 
-    color: #29292e;
+    color: ${props => props.theme.colors.color};
 
     &:hover{
         transition: 0.3s;
@@ -36,14 +36,14 @@ export const GoogleButton = styled.button`
 
 export const Division = styled.p`
     font-size: 15px;
-    color: #bbbbc4;
+    color: ${props => props.theme.colors.border};
 `
 
 export const InputRoomCode = styled.input`
     width: 350px;
     height: 50px;
 
-    border: solid 1px #bbbbc4;
+    border: solid 1px ${props => props.theme.colors.border};
     border-radius: 5px;
     background: transparent;
 
@@ -53,7 +53,7 @@ export const InputRoomCode = styled.input`
 
     font-size: 15px;
     font-weight: 500;
-    color: #29292e;
+    color: ${props => props.theme.colors.color};
     
     padding: 0 20px;
 

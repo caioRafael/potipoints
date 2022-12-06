@@ -7,14 +7,14 @@ import fibonacci from "../../../../utils/fibonacci";
 import { Container, RoomCode } from "./styles";
 import { useParams } from 'react-router-dom';
 import { useRoomVote } from './../../../../hooks/useRoomVote';
-import {FiCopy} from 'react-icons/fi'
+import { FiCopy } from 'react-icons/fi'
 
-interface HeaderContentProps{
+interface HeaderContentProps {
     setList: (list: number[]) => void
 }
- 
-const HeaderContent:FC<HeaderContentProps> = (props) => {
-    const {setList} = props
+
+const HeaderContent: FC<HeaderContentProps> = (props) => {
+    const { setList } = props
     const { code } = useParams()
     const { room, users } = useRoom(code as string)
     const { setVisibleVote, resetVotes } = useRoomVote()
@@ -27,9 +27,9 @@ const HeaderContent:FC<HeaderContentProps> = (props) => {
     )
 
     useEffect(() => {
-        if(item.value === 1){
+        if (item.value === 1) {
             setList(fibonacci())
-        }else if(item.value === 2){
+        } else if (item.value === 2) {
             setList(decimal())
         }
     }, [item])
@@ -39,37 +39,37 @@ const HeaderContent:FC<HeaderContentProps> = (props) => {
     }
 
     return (
-    <Container>
-        <section>
-            <PrimaryButton
-                width={100}
-                text={room?.result_reveled ? "Ocultar" : "Revelar"}
-                onClick={() => setVisibleVote(code as string, room?.result_reveled as boolean)}
-            />
-            <ChangeButton
-                width={100}
-                text="Reset"
-                onClick={() => resetVotes(code as string, users)}
-                disabled={!room?.result_reveled}
-            />
-        </section>
-        
-        <RoomCode
-            onClick={copyRoomCode}
-        >
-            <FiCopy size={20}/>
-            {code}
-        </RoomCode>
+        <Container>
+            <section>
+                <PrimaryButton
+                    width={100}
+                    text={room?.result_reveled ? "Ocultar" : "Revelar"}
+                    onClick={() => setVisibleVote(code as string, room?.result_reveled as boolean)}
+                />
+                <ChangeButton
+                    width={100}
+                    text="Reset"
+                    onClick={() => resetVotes(code as string, users)}
+                    disabled={!room?.result_reveled}
+                />
+            </section>
 
-        <Dropdown
-            list={ListItems}
-            item={item}
-            setItem={setItem}
-        />
-    </Container>
+            <RoomCode
+                onClick={copyRoomCode}
+            >
+                <FiCopy size={20} />
+                {code}
+            </RoomCode>
+
+            <Dropdown
+                list={ListItems}
+                item={item}
+                setItem={setItem}
+            />
+        </Container>
     );
 }
- 
+
 export default HeaderContent;
 
 const ListItems: DropdownItem[] = [
