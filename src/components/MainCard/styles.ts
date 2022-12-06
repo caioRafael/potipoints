@@ -56,6 +56,8 @@ export const MainCardStyles = styled.div<MainCardProps>`
 		
 		.card-back {
 			background-color: ${props => props.hasVote ? props.theme.colors.primary : props.theme.colors.white};
+			transform: rotateY(0deg);
+			-moz-transform: ${props => props.reveled ? 'rotateY(90deg)' : 'rotateY(0deg)'};
 		}
 
 `

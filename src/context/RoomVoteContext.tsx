@@ -35,11 +35,10 @@ export function RoomVoteContextProvider(props: RoomVoteContextProviderProps) {
     const reveledRef = ref(database, `rooms/${roomCode}/result_reveled`)
     await set(reveledRef, false)
 
-    //acredito que deve ter uma forma melhor de resetar os votos
-    for await (const user of users) {
+    users.forEach(async user => {
       const voteRef = ref(database, `rooms/${roomCode}/users/${user.user_id}/vote`)
-      await set(voteRef, '?')
-    }
+      await set(voteRef, '')
+    })
   }
 
   return (

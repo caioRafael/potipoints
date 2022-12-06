@@ -7,8 +7,8 @@ declare module 'styled-components' {
     colors: {
       primary: string,
       secondary: string,
-      blueLow: string,
       white: string,
+      disabled: string,
 
       border: string,
       borderLight: string,
