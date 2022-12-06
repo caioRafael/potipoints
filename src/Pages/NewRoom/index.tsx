@@ -1,6 +1,6 @@
 import { Container, Division, GoogleButton, InputRoomCode } from './styles';
 import { FcGoogle } from 'react-icons/fc'
-import { useCallback, useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components';
 // import { getAuth, signInWithPopup, GoogleAuthProvider,  } from "firebase/auth";
@@ -9,7 +9,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useEffect } from 'react';
 
 function NewRoom() {
-    const {signInWithGoogle, code: roomCode} = useAuth()
+    const { signInWithGoogle, code: roomCode } = useAuth()
     // const provider = new GoogleAuthProvider();
     const navigate = useNavigate()
 
@@ -17,41 +17,42 @@ function NewRoom() {
 
     const [code, setCode] = useState<string>('')
 
-    useEffect(() => {
-        if(roomCode) navigate(`/room/${roomCode}`)
-    }, [roomCode])
 
-    const enterRoom = useCallback(async (event: FormEvent) => {
+    const enterRoom = async (event: FormEvent) => {
         event.preventDefault()
         const codeRoute = await signInWithGoogle(code)
         navigate(`/room/${codeRoute}`)
-    }, [code, roomCode])
+    }
 
-    const createNewRoom = useCallback(async() => {
+    const createNewRoom = async () => {
         const codeRoute = await signInWithGoogle()
         navigate(`/room/${codeRoute}`)
-    }, [])
+    }
 
-    return ( 
+    useEffect(() => {
+        if (roomCode) navigate(`/room/${roomCode}`)
+    }, [roomCode])
+
+    return (
         <Container>
             <h1>Apontamentos</h1>
             <GoogleButton
                 onClick={() => createNewRoom()}
             >
-                <FcGoogle size={25}/>
-                Crie um sala com sua conta Google
+                <FcGoogle size={25} />
+                Crie uma sala com sua conta Google
             </GoogleButton>
 
             <Division>
-                Ou ente em uma sala
+                Ou entre em uma sala com sua conta Google
             </Division>
 
             <form onSubmit={enterRoom}>
-                <InputRoomCode 
+                <InputRoomCode
                     placeholder='Código da sala'
                     onChange={e => setCode(e.target.value)}
                 />
-                <PrimaryButton 
+                <PrimaryButton
                     text='Entrar na sala'
                     type='submit'
                 />

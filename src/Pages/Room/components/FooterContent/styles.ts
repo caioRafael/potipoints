@@ -36,6 +36,6 @@ export const Card = styled.div`
         height: 100px;
         border-radius: 5px;
 
-        border: solid 1px #bbbbc4;
+        border: solid 1px ${props => props.theme.colors.border};
     }
 `

@@ -20,22 +20,22 @@ export const Container = styled.div`
 `
 
 export const RoomCode = styled.button`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 15px;
-    width: ${ props => props.style?.width || '250px' };
-    height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 15px;
+  width: ${props => props.style?.width || '250px'};
+  height: 50px;
 
-    border: solid 1px #bbbbc4;
-    border-radius: 5px;
+  border: solid 1px ${props => props.theme.colors.border};
+  border-radius: 5px;
 
-    background: transparent;
-    color: #0069d9;
+  background: transparent;
+  color: ${props => props.theme.colors.primary};
 
-    &:hover{
-        transition: 0.3s;
-        opacity: 0.8;
-    }
+  &:hover{
+    transition: 0.3s;
+    opacity: 0.8;
+  }
 `
