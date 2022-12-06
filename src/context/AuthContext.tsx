@@ -20,7 +20,7 @@ export interface IRoom {
   voting_system: string;
 }
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -44,7 +44,7 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
-  const [user, setUser] = useState<User|null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [code, setCode] = useState<string>("");
   const [room, setRoom] = useState<IRoom | null>(null);
 
@@ -112,9 +112,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       setUser(data);
 
       localStorage.setItem("@points:user", JSON.stringify(data));
-      if(code){
+      if (code) {
         await enterRoom(code, newUser)
-      }else{
+      } else {
         newCode = (await createNewRoom(newCode, newUser as User)).toString();
       }
     }
@@ -169,13 +169,13 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       existedRook = data
     })
 
-    if(!existedRook){
+    if (!existedRook) {
       throw new Error('room not exist')
     }
 
     //alteração feita para que o id ddo usuário seja a key no banco
     const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
-    await set(addUserInRoomRef, roomUser );
+    await set(addUserInRoomRef, roomUser);
   }
 
   return (

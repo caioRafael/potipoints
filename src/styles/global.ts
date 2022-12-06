@@ -5,6 +5,7 @@ export const Global = createGlobalStyle`
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-smooth: antialiased;
   }
   
   @media (max-width: 1080px) {
@@ -19,8 +20,8 @@ export const Global = createGlobalStyle`
     }
   }
   body{
-    background: #f7f8fa;
-    color: #1f2633;
+    background: ${props => props.theme.colors.background};
+    color: ${props => props.theme.colors.color};
   }
   
   body, input, button {

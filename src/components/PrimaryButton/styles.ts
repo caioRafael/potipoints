@@ -5,13 +5,13 @@ export const Button = styled.button`
     align-items: center;
     justify-content: center;
     padding: 0 15px;
-    width: ${ props => props.style?.width || '350px' };
+    width: ${props => props.style?.width || '350px'};
     height: 50px;
 
     border-radius: 5px;
 
-    background: #0069d9;
-    color: #fff;
+    background: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.background};
 
     &:hover{
         transition: 0.3s;

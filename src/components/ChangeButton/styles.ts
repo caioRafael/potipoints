@@ -5,14 +5,14 @@ export const Button = styled.button`
     align-items: center;
     justify-content: center;
     padding: 0 15px;
-    width: ${ props => props.style?.width || '350px' };
+    width: ${props => props.style?.width || '350px'};
     height: 50px;
 
-    border: solid 1px #bbbbc4;
+    border: solid 1px ${props => props.theme.colors.border};
     border-radius: 5px;
 
     background: transparent;
-    color: #0069d9;
+    color: ${props => props.theme.colors.primary};
 
     &:hover{
         transition: 0.3s;
