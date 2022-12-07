@@ -1,3 +1,4 @@
+import { darken } from "polished";
 import styled from "styled-components";
 
 export const Button = styled.button`
@@ -17,5 +18,11 @@ export const Button = styled.button`
     &:hover{
         transition: 0.3s;
         opacity: 0.8;
+    }
+
+    :disabled {
+        background-color: ${props => darken(0.05, props.theme.colors.white)};
+        color: ${props => props.theme.colors.disabled};
+        cursor: default;
     }
 `

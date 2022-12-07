@@ -54,7 +54,11 @@ export const DropDownList = styled.ul`
   overflow: hidden;
 `
 
-export const ListItem = styled.li`
+interface ListItemProps {
+  disabled?: boolean;
+}
+
+export const ListItem = styled.li<ListItemProps>`
   box-sizing: border-box;
   cursor: pointer;
   list-style: none;
@@ -62,7 +66,11 @@ export const ListItem = styled.li`
   display: flex;
   align-items: center;
 
-  :hover {
-    background-color: ${props => lighten(0.4, props.theme.colors.primary)}
+  color: ${props => props.disabled ? props.theme.colors.disabled : props.theme.colors.primary};
+  cursor: ${props => props.disabled ? 'default' : 'pointer'};
+
+  :hover  {
+    background-color: ${props => !props.disabled && lighten(0.4, props.theme.colors.primary)}
   }
+
 `

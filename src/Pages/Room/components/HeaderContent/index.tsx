@@ -10,75 +10,80 @@ import { useRoomVote } from './../../../../hooks/useRoomVote';
 import { FiCopy } from 'react-icons/fi'
 
 interface HeaderContentProps {
-    setList: (list: number[]) => void
+  setList: (list: number[]) => void
 }
 
 const HeaderContent: FC<HeaderContentProps> = (props) => {
-    const { setList } = props
-    const { code } = useParams()
-    const { room, users } = useRoom(code as string)
-    const { setVisibleVote, resetVotes } = useRoomVote()
+  const { setList } = props
+  const { code } = useParams()
+  const { room, users } = useRoom(code as string)
+  const { setVisibleVote, resetVotes } = useRoomVote()
 
-    const [item, setItem] = useState<DropdownItem>(
-        {
-            name: 'Fibonacci',
-            value: 1
-        }
-    )
-
-    useEffect(() => {
-        if (item.value === 1) {
-            setList(fibonacci())
-        } else if (item.value === 2) {
-            setList(decimal())
-        }
-    }, [item])
-
-    function copyRoomCode() {
-        navigator.clipboard.writeText(code as string)
+  const [item, setItem] = useState<DropdownItem>(
+    {
+      name: 'Fibonacci',
+      value: 1
     }
+  )
 
-    return (
-        <Container>
-            <section>
-                <PrimaryButton
-                    width={100}
-                    text={room?.result_reveled ? "Ocultar" : "Revelar"}
-                    onClick={() => setVisibleVote(code as string, room?.result_reveled as boolean)}
-                />
-                <ChangeButton
-                    width={100}
-                    text="Reset"
-                    onClick={() => resetVotes(code as string, users)}
-                    disabled={!room?.result_reveled}
-                />
-            </section>
+  useEffect(() => {
+    if (item.value === 1) {
+      setList(fibonacci())
+    } else if (item.value === 2) {
+      setList(decimal())
+    }
+  }, [item])
 
-            <RoomCode
-                onClick={copyRoomCode}
-            >
-                <FiCopy size={20} />
-                {code}
-            </RoomCode>
+  function copyRoomCode() {
+    navigator.clipboard.writeText(code as string)
+  }
 
-            <Dropdown
-                list={ListItems}
-                item={item}
-                setItem={setItem}
-            />
-        </Container>
-    );
+  const handleVisibleVote = () => {
+    setVisibleVote(code as string, room?.result_reveled as boolean)
+  }
+
+  return (
+    <Container>
+      <section>
+        <PrimaryButton
+          width={100}
+          text={room?.result_reveled ? "Ocultar" : "Revelar"}
+          onClick={handleVisibleVote}
+        />
+        <ChangeButton
+          width={100}
+          text="Resetar"
+          onClick={() => resetVotes(code as string, users)}
+          disabled={!room?.result_reveled}
+        />
+      </section>
+
+      <RoomCode
+        onClick={copyRoomCode}
+      >
+        <FiCopy size={20} />
+        {code}
+      </RoomCode>
+
+      <Dropdown
+        list={ListItems}
+        item={item}
+        setItem={setItem}
+      />
+    </Container>
+  );
 }
 
 export default HeaderContent;
 
 const ListItems: DropdownItem[] = [
-    {
-        name: 'Fibonacci',
-        value: 1
-    },
-    {
-        name: 'Decimal',
-        value: 2
-    }
+  {
+    name: 'Fibonacci',
+    value: 1
+  },
+  {
+    name: 'Decimal',
+    value: 2,
+    disabled: true,
+  }
 ]

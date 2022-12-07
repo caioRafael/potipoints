@@ -3,28 +3,34 @@ import { useEffect, useState } from 'react';
 import { IRoom, IRoomUser } from '../context/AuthContext';
 import { database } from '../service/firebase';
 
-export function useRoom(codeRoom: string){
-    const [users, setUsers] = useState<IRoomUser[]>([])
-    const [room, setRoom] = useState<IRoom>()
+export function useRoom(codeRoom: string) {
+  const [users, setUsers] = useState<IRoomUser[]>([])
+  const [room, setRoom] = useState<IRoom>()
 
-    const roomRef = ref(database, `/rooms/${codeRoom}`);
-    
-    useEffect(() => {
-      onValue(roomRef, (snapshot) => {
-        const data: IRoom = snapshot.val()
-        setRoom(data)
-        const userList = Object.entries(data.users)
+  const roomRef = ref(database, `/rooms/${codeRoom}`);
+
+  useEffect(() => {
+    onValue(roomRef, async (snapshot) => {
+      const data = await snapshot.val()
+
+      const room: IRoom = {
+        ...data,
+        users: Object.entries(data.users).map(([_, user]) => user),
+      }
+
+      setRoom(room)
+      const userList = Object.entries(room.users)
         .map(([key, value]) => {
-          return{
+          return {
             user_id: value.user_id,
             vote: value.vote,
             avatar_url: value.avatar_url,
-            name: value.name.split(' ')[0],
+            name: value.name?.split(' ')[0],
             email: value.email
           }
         })
-        setUsers(userList)
-      })
+      setUsers(userList)
+    })
   }, [codeRoom])
-    return { room, users }
+  return { room, users }
 }

@@ -17,7 +17,7 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
     >
       <div className="card-inner">
         <div className='card-front'>
-          <span>{user.vote}</span>
+          <span>{user.vote || '?'}</span>
         </div>
         <div className='card-back'>
           <Image
