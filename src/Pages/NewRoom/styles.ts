@@ -59,3 +59,7 @@ export const InputRoomCode = styled.input`
 
     cursor: pointer;
 `
+
+export const Logo = styled.img`
+    width: 400px;
+`

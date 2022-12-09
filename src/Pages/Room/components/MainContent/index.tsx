@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useRoom } from "../../../../hooks/useRoom";
 import { Card, Container } from "../../../../components";
 import { useAuth } from "../../../../hooks/useAuth";
+import Average from './../Average/index';
 
 interface FooterContentProps {
   cardList: number[]
@@ -33,23 +34,36 @@ const MainContent: FC<FooterContentProps> = (props) => {
 
   return (
     <Container>
-      {cardList.map(item => (
-        <Card
-          key={item}
-          onClick={() => handleChangeVote(item)}
-          disabled={room?.result_reveled}
-          isCardSelected={myVote === String(item)}
-        >
-          <h1>{item}</h1>
-        </Card>
-      ))}
-      <Card
-        onClick={() => handleChangeVote('?')}
-        disabled={room?.result_reveled}
-        isCardSelected={myVote === '?'}
-      >
-        <h1>?</h1>
-      </Card>
+      {room?.result_reveled ? 
+        <Average/>
+        :
+        <>
+          {cardList.map(item => (
+            <Card
+              key={item}
+              onClick={() => handleChangeVote(item)}
+              disabled={room?.result_reveled}
+              isCardSelected={myVote === String(item)}
+            >
+              <h1>{item}</h1>
+            </Card>
+          ))}
+          <Card
+            onClick={() => handleChangeVote('?')}
+            disabled={room?.result_reveled}
+            isCardSelected={myVote === '?'}
+          >
+            <h1>?</h1>
+          </Card>
+          <Card
+            onClick={() => handleChangeVote('☕')}
+            disabled={room?.result_reveled}
+            isCardSelected={myVote === '☕'}
+          >
+            <h1>☕</h1>
+          </Card>
+        </>
+      }
     </Container>
   );
 }

@@ -3,7 +3,8 @@ import { FC, useContext } from "react"
 import { ThemeContext } from "styled-components"
 import { User } from "../../context/AuthContext"
 import Image from "../Image"
-import { HeaderContainer, HeaderStyles, IconButton, UserContent } from "./styles"
+import { HeaderContainer, HeaderStyles, IconButton, LogoHeader, UserContent } from "./styles"
+import Logo from '../../assets/logo.svg'
 
 interface HeaderProps {
   user: User | null
@@ -16,7 +17,8 @@ const Header: FC<HeaderProps> = ({ user, onSignOut }) => {
   return (
     <HeaderStyles>
       <HeaderContainer>
-        <span>Poti<b>Points</b></span>
+        <LogoHeader src={Logo}/>
+        {/* <span>Poti<b>Points</b></span> */}
         {user && (
           <UserContent>
             <Image url={user.avatar} name={user.name} />

@@ -1,19 +1,15 @@
-import { Container, Division, GoogleButton, InputRoomCode } from './styles';
+import { Container, Division, GoogleButton, InputRoomCode, Logo } from './styles';
 import { FcGoogle } from 'react-icons/fc'
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../../components';
-// import { getAuth, signInWithPopup, GoogleAuthProvider,  } from "firebase/auth";
-// import {app} from '../../service/firebase'
 import { useAuth } from '../../hooks/useAuth';
 import { useEffect } from 'react';
+import FullLogo from '../../assets/full-logo.svg'
 
 function NewRoom() {
     const { signInWithGoogle, code: roomCode } = useAuth()
-    // const provider = new GoogleAuthProvider();
     const navigate = useNavigate()
-
-    // const {options} = app
 
     const [code, setCode] = useState<string>('')
 
@@ -35,7 +31,7 @@ function NewRoom() {
 
     return (
         <Container>
-            <h1>Apontamentos</h1>
+            <Logo src={FullLogo} alt="full-logo" />
             <GoogleButton
                 onClick={() => createNewRoom()}
             >
