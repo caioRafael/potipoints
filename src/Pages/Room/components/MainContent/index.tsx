@@ -55,6 +55,13 @@ const MainContent: FC<FooterContentProps> = (props) => {
           >
             <h1>?</h1>
           </Card>
+          <Card
+            onClick={() => handleChangeVote('☕')}
+            disabled={room?.result_reveled}
+            isCardSelected={myVote === '☕'}
+          >
+            <h1>☕</h1>
+          </Card>
         </>
       }
     </Container>
