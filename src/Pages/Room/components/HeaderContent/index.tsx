@@ -8,6 +8,8 @@ import { Container, RoomCode } from "./styles";
 import { useParams } from 'react-router-dom';
 import { useRoomVote } from './../../../../hooks/useRoomVote';
 import { FiCopy } from 'react-icons/fi'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 interface HeaderContentProps {
   setList: (list: number[]) => void
@@ -36,6 +38,7 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
 
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
+    toast('Código copiado!')
   }
 
   const handleVisibleVote = () => {

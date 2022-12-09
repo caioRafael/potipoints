@@ -6,6 +6,7 @@ import { database } from '../service/firebase';
 export function useRoom(codeRoom: string) {
   const [users, setUsers] = useState<IRoomUser[]>([])
   const [room, setRoom] = useState<IRoom>()
+  const [votes, setVotes] = useState<number[]>([])
 
   const roomRef = ref(database, `/rooms/${codeRoom}`);
 
@@ -32,5 +33,17 @@ export function useRoom(codeRoom: string) {
       setUsers(userList)
     })
   }, [codeRoom])
-  return { room, users }
+
+  useEffect(()=>{
+    if(room?.result_reveled){
+      const listVotes = Object.entries(room.users)
+        .map(([key, value]) => {
+          return !isNaN(parseInt(value.vote as string)) && parseInt(value.vote as string)
+        })
+
+      setVotes(listVotes as number[])
+    }
+  }, [room?.result_reveled])
+
+  return { room, users, votes }
 }

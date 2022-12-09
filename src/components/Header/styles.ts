@@ -21,6 +21,10 @@ export const HeaderStyles = styled.header`
   }
 `
 
+export const LogoHeader = styled.img`
+  width: 100px;
+`
+
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
