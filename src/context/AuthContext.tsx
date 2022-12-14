@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { auth, database, provider } from "../service/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { ref, set, push, onValue, DataSnapshot } from "firebase/database";
+import { ref, set, push, onValue, DataSnapshot, get, child } from "firebase/database";
 
 export interface IRoomUser {
   // key?: string;
@@ -108,6 +108,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         email: email || "",
       };
 
+      
       newUser = data;
       setUser(data);
 
@@ -155,6 +156,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   async function enterRoom(code: string, user: User) {
     let existedRook: IRoom | null = null
 
+    console.log(user)
+
     let roomUser: IRoomUser = {
       avatar_url: user.avatar,
       user_id: user.id,
@@ -165,7 +168,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const roomRef = ref(database, `/rooms/${code}`);
     onValue(roomRef, (snapshot: DataSnapshot) => {
       const data = snapshot.val()
-      console.log('value', data)
       existedRook = data
     })
 
