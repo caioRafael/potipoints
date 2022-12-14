@@ -1,70 +1,23 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { useRoomVote } from "../../../../hooks/useRoomVote";
-import { useParams } from 'react-router-dom';
+import { FC } from "react";
+import { useParams } from "react-router-dom";
+import { Image, MainCard } from "../../../../components";
 import { useRoom } from "../../../../hooks/useRoom";
-import { Card, Container } from "../../../../components";
-import { useAuth } from "../../../../hooks/useAuth";
-import Average from './../Average/index';
+import { Container } from "./styles";
 
-interface FooterContentProps {
-  cardList: number[]
-}
-
-const MainContent: FC<FooterContentProps> = (props) => {
-  const { cardList } = props
-  const { user } = useAuth()
-  const { setMyVote } = useRoomVote()
+const MainContent: FC = () => {
   const { code } = useParams()
-  const { room } = useRoom(code as string)
-
-  const myVote = useMemo(() => {
-    if (room && user) {
-      const roomUser = room.users.find(u => u.user_id === user?.id)
-
-      return roomUser?.vote || ''
-    }
-    return ''
-  }, [room, user])
-
-  const handleChangeVote = (item: number | string) => {
-    let vote = String(item) === myVote ? '' : item
-
-    setMyVote(code as string, String(vote))
-  }
-
+  const { users, room } = useRoom(code as string)
   return (
     <Container>
-      {room?.result_reveled ? 
-        <Average/>
-        :
-        <>
-          {cardList.map(item => (
-            <Card
-              key={item}
-              onClick={() => handleChangeVote(item)}
-              disabled={room?.result_reveled}
-              isCardSelected={myVote === String(item)}
-            >
-              <h1>{item}</h1>
-            </Card>
-          ))}
-          <Card
-            onClick={() => handleChangeVote('?')}
-            disabled={room?.result_reveled}
-            isCardSelected={myVote === '?'}
-          >
-            <h1>?</h1>
-          </Card>
-          <Card
-            onClick={() => handleChangeVote('☕')}
-            disabled={room?.result_reveled}
-            isCardSelected={myVote === '☕'}
-          >
-            <h1>☕</h1>
-          </Card>
-        </>
+      {users.map(user => (
+        <MainCard
+          user={user}
+          reveled={room?.result_reveled}
+          key={user.user_id}
+        />
+      ))
       }
-    </Container>
+    </Container >
   );
 }
 

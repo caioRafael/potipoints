@@ -6,10 +6,10 @@ import decimal from "../../../../utils/decimal";
 import fibonacci from "../../../../utils/fibonacci";
 import { Container, RoomCode } from "./styles";
 import { useParams } from 'react-router-dom';
-import { useRoomVote } from './../../../../hooks/useRoomVote';
 import { FiCopy } from 'react-icons/fi'
-import {toast} from 'react-toastify'
+import { Flip, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { resetAllVotes, toggleVisibleVote } from "../../../../service/votes";
 
 interface HeaderContentProps {
   setList: (list: number[]) => void
@@ -19,7 +19,6 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
   const { setList } = props
   const { code } = useParams()
   const { room, users } = useRoom(code as string)
-  const { setVisibleVote, resetVotes } = useRoomVote()
 
   const [item, setItem] = useState<DropdownItem>(
     {
@@ -38,11 +37,15 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
 
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
-    toast('Código copiado!')
+    toast.info('Código copiado!', {
+      position: toast.POSITION.TOP_CENTER,
+      theme: 'colored',
+      transition: Flip,
+    })
   }
 
   const handleVisibleVote = () => {
-    setVisibleVote(code as string, room?.result_reveled as boolean)
+    toggleVisibleVote(code as string, room?.result_reveled as boolean)
   }
 
   return (
@@ -56,7 +59,7 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
         <ChangeButton
           width={100}
           text="Resetar"
-          onClick={() => resetVotes(code as string, users)}
+          onClick={() => resetAllVotes(code as string, users)}
           disabled={!room?.result_reveled}
         />
       </section>

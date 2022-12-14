@@ -1,3 +1,4 @@
+import { darken, shade } from "polished";
 import styled from "styled-components";
 
 export const Button = styled.button`
@@ -13,7 +14,13 @@ export const Button = styled.button`
     background: ${props => props.theme.colors.primary};
     color: ${props => props.theme.colors.background};
 
-    &:hover{
+    &:disabled{
+        color: ${props => shade(0.1, props.theme.colors.background)};
+        background: ${props => shade(0.05, props.theme.colors.primary)};
+        cursor: default;
+    }
+
+    &:hover &:not(:disabled){
         transition: 0.3s;
         opacity: 0.8;
     }
