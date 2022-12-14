@@ -6,13 +6,12 @@ export const Container = styled.div`
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px 0;
+    padding: 24px;
+    flex: 1px;
+    gap: 24px;
 
     width: 100%;
-    overflow: hidden;
 `
-
 
 export const Card = styled.div`
     display: flex;

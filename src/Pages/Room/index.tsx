@@ -1,8 +1,7 @@
-import { Header, Image } from "../../components";
+import { Header } from "../../components";
 import { ContentRoom } from "./components";
 import { Container } from "./styles";
 import { useAuth } from "./../../hooks/useAuth";
-import { SignOut } from "phosphor-react";
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 

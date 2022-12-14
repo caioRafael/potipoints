@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { auth, database, provider } from "../service/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { ref, set, push, onValue, DataSnapshot } from "firebase/database";
+import { ref, set, push, onValue, DataSnapshot, get, child } from "firebase/database";
 
 export interface IRoomUser {
   // key?: string;
@@ -49,11 +49,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [room, setRoom] = useState<IRoom | null>(null);
 
   useEffect(() => {
-    const userLoged = localStorage.getItem("@points:user");
+    const userLogged = localStorage.getItem("@points:user");
     const codeRoom = localStorage.getItem("@points:code");
 
-    if (userLoged && codeRoom) {
-      setUser(JSON.parse(userLoged));
+    if (userLogged && codeRoom) {
+      setUser(JSON.parse(userLogged));
       setCode(codeRoom);
     }
   }, []);
@@ -132,7 +132,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       user_id: user.id,
       name: user.name,
       email: user.email,
-      vote: '?'
+      vote: ''
     };
 
     let initialRoom: IRoom = {
@@ -144,16 +144,16 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     };
 
     setRoom(initialRoom);
-    const roomRef = ref(database, `/rooms`);
-    const newPostRef = await push(roomRef, initialRoom);
+    const roomRef = ref(database, `/rooms/${initialRoom.code}`);
+    await set(roomRef, initialRoom);
     //alteração feita para que o id ddo usuário seja a key no banco
-    const enterRoomRef = ref(database, `/rooms/${newPostRef.key}/users/${user.id}`)
+    const enterRoomRef = ref(database, `/rooms/${initialRoom.code}/users/${user.id}`)
     await set(enterRoomRef, initialRoomUser)
-    return newPostRef.key as string
+    return initialRoom.code as string
   }
 
   async function enterRoom(code: string, user: User) {
-    let existedRook: IRoom | null = null
+    let existedRoom: IRoom | null = null
 
     let roomUser: IRoomUser = {
       avatar_url: user.avatar,
@@ -163,19 +163,20 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       vote: '?'
     };
     const roomRef = ref(database, `/rooms/${code}`);
-    onValue(roomRef, (snapshot: DataSnapshot) => {
-      const data = snapshot.val()
-      console.log('value', data)
-      existedRook = data
+
+    onValue(roomRef, async (snapshot: DataSnapshot) => {
+      existedRoom = snapshot.val()
+
+      if (!existedRoom) {
+        throw new Error('room not exist')
+      }
+
+
+
+      //alteração feita para que o id ddo usuário seja a key no banco
+      const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
+      await set(addUserInRoomRef, roomUser);
     })
-
-    if (!existedRook) {
-      throw new Error('room not exist')
-    }
-
-    //alteração feita para que o id ddo usuário seja a key no banco
-    const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
-    await set(addUserInRoomRef, roomUser);
   }
 
   return (
