@@ -41,6 +41,7 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
       position: toast.POSITION.TOP_CENTER,
       theme: 'colored',
       transition: Flip,
+      autoClose: 2000,
     })
   }
 

@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { Image, MainCard } from "../../../../components";
 import { useRoom } from "../../../../hooks/useRoom";
 import Average from "../Average";
 import { Container } from "./styles";

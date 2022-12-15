@@ -1,6 +1,5 @@
 import { ToastContainer } from "react-toastify"
 import { ThemeProvider } from "styled-components"
-import { AuthContextProvider } from "./context/AuthContext"
 import Routes from "./routes"
 import { Global } from "./styles/global"
 import light from "./styles/themes/light"
@@ -10,10 +9,8 @@ function App() {
     <ThemeProvider theme={light}>
       <div className="App">
         <Global />
-        <AuthContextProvider>
-          <Routes />
-          <ToastContainer/>
-        </AuthContextProvider>
+        <Routes />
+        <ToastContainer />
       </div>
     </ThemeProvider>
   )

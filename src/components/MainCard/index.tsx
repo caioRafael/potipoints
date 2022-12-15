@@ -1,3 +1,4 @@
+import { Avatar } from "..";
 import { IRoomUser } from "../../context/AuthContext";
 import Image from "../Image";
 import { MainCardStyles } from "./styles";
@@ -20,9 +21,10 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
           <span>{user.vote || '?'}</span>
         </div>
         <div className='card-back'>
-          <Image
-            url={user.avatar_url}
+          <Avatar
+            src={user.avatar_url}
             name={user.name}
+            fallbackAsPicture
           />
         </div>
       </div>
