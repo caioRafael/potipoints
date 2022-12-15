@@ -1,8 +1,9 @@
-export default function average(list: number[]){
+export default function average(list: string[]) {
     let count: number = 0
-    for (let index = 0; index < list.length; index++) {
-        count = list[index] + count;
+    const numbers = list.map(item => parseInt(item)).filter(n => !isNaN(n))
+    for (let index = 0; index < numbers.length; index++) {
+        count = numbers[index] + count;
     }
 
-    return count/list.length
+    return count / numbers.length || undefined
 }

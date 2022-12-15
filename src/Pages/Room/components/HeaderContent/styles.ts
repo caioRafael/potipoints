@@ -6,9 +6,7 @@ export const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 50px;
-    margin: 20px 30px;
-    padding: 10px 15px;
+    padding: 0px 24px 16px;
     flex-wrap: wrap;
 
     section{
@@ -25,7 +23,7 @@ export const RoomCode = styled.button`
   align-items: center;
   justify-content: space-around;
   padding: 0 15px;
-  width: ${props => props.style?.width || '250px'};
+  gap: 16px;
   height: 50px;
 
   border: solid 1px ${props => props.theme.colors.border};

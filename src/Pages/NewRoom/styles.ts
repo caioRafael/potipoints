@@ -9,7 +9,7 @@ export const Container = styled.div`
 
     height: 100vh;
 
-    gap: 20px
+    gap: 20px;
 `
 
 export const GoogleButton = styled.button`
@@ -56,8 +56,6 @@ export const InputRoomCode = styled.input`
     color: ${props => props.theme.colors.color};
     
     padding: 0 20px;
-
-    cursor: pointer;
 `
 
 export const Logo = styled.img`

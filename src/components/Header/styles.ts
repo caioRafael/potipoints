@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const HeaderStyles = styled.header`
   
   width: 100vw;
-  height: 70px;
 
   background: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.primary};
