@@ -20,9 +20,13 @@ export const Container = styled.div`
   gap: 16px;
   position: relative;
 
-
   .lottieAnimation {
     position: absolute;
+  }
+
+  .coffeeAnimation {
+    position: relative;
+    width: 300px;
   }
 `
 
@@ -34,6 +38,7 @@ export const AverageContainer = styled.span<AverageProps>`
     gap: 8px;
     animation: 0.5s ${slideIn} ease-in-out backwards;
     animation-delay:  ${props => `${props.delay}s`};
+    overflow: hidden;
 
     p {
       font-size: 28px;
