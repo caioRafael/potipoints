@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useParams } from 'react-router-dom';
 import { useRoom } from "../../../../hooks/useRoom";
 import { Card, Container } from "../../../../components";
@@ -25,11 +25,13 @@ const CardContent: FC<FooterContentProps> = (props) => {
     return ''
   }, [room, user])
 
-  const handleChangeVote = (item: number | string) => {
-    let vote = String(item) === myVote ? '' : item
+  const handleChangeVote = useCallback(async (item: number | string) => {
+    let vote = String(item) === String(myVote) ? '' : item
 
     setMyVote(code as string, String(vote), user as User)
-  }
+  }, [setMyVote, myVote, user])
+
+  const isDisabledCardList = room?.result_reveled || !room || !user
 
   return (
     <Container>
@@ -37,7 +39,7 @@ const CardContent: FC<FooterContentProps> = (props) => {
         <Card
           key={item}
           onClick={() => handleChangeVote(item)}
-          disabled={room?.result_reveled}
+          disabled={isDisabledCardList}
           isCardSelected={myVote === String(item)}
         >
           <h1>{item}</h1>
@@ -45,14 +47,14 @@ const CardContent: FC<FooterContentProps> = (props) => {
       ))}
       <Card
         onClick={() => handleChangeVote('?')}
-        disabled={room?.result_reveled}
+        disabled={isDisabledCardList}
         isCardSelected={myVote === '?'}
       >
         <h1>?</h1>
       </Card>
       <Card
         onClick={() => handleChangeVote('☕')}
-        disabled={room?.result_reveled}
+        disabled={isDisabledCardList}
         isCardSelected={myVote === '☕'}
       >
         <h1>☕</h1>

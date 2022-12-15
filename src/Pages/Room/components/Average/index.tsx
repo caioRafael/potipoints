@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card } from '../../../../components';
 import average from '../../../../utils/average';
-import calculateBestOccurrence from '../../../../utils/calculateBestOccurrence'
+import { calculateBestOccurrence } from '../../../../utils/calculateBestOccurrence'
 import { useRoom } from './../../../../hooks/useRoom';
 import { AverageContainer, Container } from './styles';
 
@@ -32,15 +32,18 @@ const Average: FC<AverageProps> = ({ reveled }) => {
   }
 
   const { View: CongratsAnimate, play, stop } = useLottie(options)
-  const betterAcceptance = calculateBestOccurrence(votes)
+  const betterAcceptance = calculateBestOccurrence(votes)?.betterAcceptance
+  const isCoffeeTime = calculateBestOccurrence(votes)?.coffeeTime
 
   useEffect(() => {
     if (room?.result_reveled && votesAverage === Number(betterAcceptance)) {
       play()
+    } else if (room?.result_reveled && isCoffeeTime) {
+      play()
     } else {
       stop()
     }
-  }, [room?.result_reveled, votesAverage, betterAcceptance])
+  }, [room?.result_reveled, votesAverage, betterAcceptance, isCoffeeTime])
 
   return (
     <Container>
@@ -58,6 +61,12 @@ const Average: FC<AverageProps> = ({ reveled }) => {
         <AverageContainer reveled={reveled} delay={0.2}>
           <h2>Média:</h2>
           <p>{formattedAverageVotes}</p>
+        </AverageContainer>
+      )
+      }
+      {isCoffeeTime && (
+        <AverageContainer reveled={reveled} delay={0.2}>
+          <h3>Hora do café!</h3>
         </AverageContainer>
       )
       }

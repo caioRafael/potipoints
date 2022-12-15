@@ -1,17 +1,20 @@
-import { 
+import {
     BrowserRouter,
     Routes as Switch,
     Route,
 } from 'react-router-dom'
+import { AuthContextProvider } from './context/AuthContext';
 import { NewRoom, Room } from './Pages';
 
 function Routes() {
-    return ( 
+    return (
         <BrowserRouter>
-            <Switch>
-                <Route path="/" element={<NewRoom/>}/>
-                <Route path="/room/:code" element={<Room/>}/>
-            </Switch>
+            <AuthContextProvider>
+                <Switch>
+                    <Route path="/" element={<NewRoom />} />
+                    <Route path="/room/:code" element={<Room />} />
+                </Switch>
+            </AuthContextProvider>
         </BrowserRouter>
     );
 }

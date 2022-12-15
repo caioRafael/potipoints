@@ -1,7 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { auth, database, provider } from "../service/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { ref, set, push, onValue, DataSnapshot, get, child } from "firebase/database";
+import { ref, set, push, onValue, DataSnapshot, get, child, remove } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 export interface IRoomUser {
   // key?: string;
@@ -32,7 +33,7 @@ type AuthContextType = {
   user: User | null;
   signInWithGoogle: (code?: string) => Promise<string>;
   code: string;
-  signOut: () => void;
+  signOut: (navigateTo?: string) => Promise<void>;
   room: IRoom | null;
   // created_by_user: User;
 };
@@ -44,6 +45,7 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
+  const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null);
   const [code, setCode] = useState<string>("");
   const [room, setRoom] = useState<IRoom | null>(null);
@@ -56,36 +58,72 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       setUser(JSON.parse(userLogged));
       setCode(codeRoom);
     }
-  }, []);
+  }, [localStorage]);
 
-  function signOut() {
+  async function removeUserFromRoom(roomCode: string, userId: string) {
+    await remove(ref(database, `/rooms/${roomCode}/users/${userId}`));
+  }
+
+  async function signOut(navigateTo?: string) {
+    await removeUserFromRoom(code, user?.id as string)
     setUser(null);
     setCode("");
     localStorage.clear();
+    if (navigateTo) {
+      navigate(navigateTo)
+    }
   }
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { displayName, photoURL, uid, email } = user;
-
-        if (!displayName || !photoURL) {
-          throw new Error("Missing information from Google Account.");
-        }
-
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL,
-          email: email || "",
-        });
-      }
-    });
-
-    return () => {
-      unsubscribe();
+  async function createNewRoom(roomCode: string, user: User) {
+    let initialRoomUser: IRoomUser = {
+      avatar_url: user.avatar,
+      user_id: user.id,
+      name: user.name,
+      email: user.email,
+      vote: ''
     };
-  }, []);
+
+    let initialRoom: IRoom = {
+      users: [],
+      code: roomCode,
+      result_reveled: false,
+      voting_system: "fibonacci",
+      // created_by_user: initialRoomUser,
+    };
+
+    setRoom(initialRoom);
+    const roomRef = ref(database, `/rooms/${initialRoom.code}`);
+    await set(roomRef, initialRoom);
+    //alteração feita para que o id ddo usuário seja a key no banco
+    const enterRoomRef = ref(database, `/rooms/${initialRoom.code}/users/${user.id}`)
+    await set(enterRoomRef, initialRoomUser)
+    return initialRoom.code as string
+  }
+
+  async function enterRoom(code: string, user: User) {
+    let existedRoom: IRoom | null = null
+
+    let roomUser: IRoomUser = {
+      avatar_url: user.avatar,
+      user_id: user.id,
+      name: user.name,
+      email: user.email,
+      vote: ''
+    };
+    const roomRef = ref(database, `/rooms/${code}`);
+
+    onValue(roomRef, async (snapshot: DataSnapshot) => {
+      existedRoom = snapshot.val()
+
+      if (!existedRoom) {
+        throw new Error('room not exist')
+      }
+
+      //alteração feita para que o id ddo usuário seja a key no banco
+      const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
+      await set(addUserInRoomRef, roomUser);
+    })
+  }
 
   async function signInWithGoogle(code?: string) {
     let newCode = code
@@ -127,60 +165,30 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     return newCode;
   }
 
-  async function createNewRoom(roomCode: string, user: User) {
-    let initialRoomUser: IRoomUser = {
-      avatar_url: user.avatar,
-      user_id: user.id,
-      name: user.name,
-      email: user.email,
-      vote: ''
-    };
 
-    let initialRoom: IRoom = {
-      users: [],
-      code: roomCode,
-      result_reveled: false,
-      voting_system: "fibonacci",
-      // created_by_user: initialRoomUser,
-    };
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, photoURL, uid, email } = user;
 
-    setRoom(initialRoom);
-    const roomRef = ref(database, `/rooms/${initialRoom.code}`);
-    await set(roomRef, initialRoom);
-    //alteração feita para que o id ddo usuário seja a key no banco
-    const enterRoomRef = ref(database, `/rooms/${initialRoom.code}/users/${user.id}`)
-    await set(enterRoomRef, initialRoomUser)
-    return initialRoom.code as string
-  }
+        if (!displayName || !photoURL) {
+          throw new Error("Missing information from Google Account.");
+        }
 
-  async function enterRoom(code: string, user: User) {
-    let existedRoom: IRoom | null = null
-
-    console.log(user)
-
-    let roomUser: IRoomUser = {
-      avatar_url: user.avatar,
-      user_id: user.id,
-      name: user.name,
-      email: user.email,
-      vote: '?'
-    };
-    const roomRef = ref(database, `/rooms/${code}`);
-
-    onValue(roomRef, async (snapshot: DataSnapshot) => {
-      existedRoom = snapshot.val()
-
-      if (!existedRoom) {
-        throw new Error('room not exist')
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+          email: email || "",
+        });
       }
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
-
-      //alteração feita para que o id ddo usuário seja a key no banco
-      const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`);
-      await set(addUserInRoomRef, roomUser);
-    })
-  }
 
   return (
     <AuthContext.Provider

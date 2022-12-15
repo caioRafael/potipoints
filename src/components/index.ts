@@ -6,6 +6,7 @@ import { Card } from './Card';
 import { Container } from './Container';
 import { MainCard } from './MainCard';
 import Header from './Header';
+import Avatar from './Avatar';
 
 export {
     Image,
@@ -16,4 +17,5 @@ export {
     MainCard,
     Container,
     Header,
+    Avatar,
 }

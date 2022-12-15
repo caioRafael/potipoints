@@ -1,29 +1,34 @@
 import { SignOut } from "phosphor-react"
-import { FC, useContext } from "react"
+import { FC, useCallback, useContext } from "react"
 import { ThemeContext } from "styled-components"
-import { User } from "../../context/AuthContext"
-import Image from "../Image"
 import { HeaderContainer, HeaderStyles, IconButton, LogoHeader, UserContent } from "./styles"
 import Logo from '../../assets/logo.svg'
+import { useAuth } from "../../hooks/useAuth"
+import { Avatar } from ".."
 
-interface HeaderProps {
-  user: User | null
-  onSignOut: () => void
-}
-
-const Header: FC<HeaderProps> = ({ user, onSignOut }) => {
+const Header: FC = () => {
   const { colors } = useContext(ThemeContext)
+
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = useCallback(async () => {
+    if (window.confirm('Você será deslogado do sistema!')) {
+      signOut('/')
+    }
+  }, [signOut])
 
   return (
     <HeaderStyles>
       <HeaderContainer>
-        <LogoHeader src={Logo}/>
-        {/* <span>Poti<b>Points</b></span> */}
+        <LogoHeader src={Logo} />
         {user && (
           <UserContent>
-            <Image url={user.avatar} name={user.name} />
+            <Avatar
+              src={user.avatar}
+              name={user.name}
+            />
             <p>{user.name}</p>
-            <IconButton onClick={onSignOut}>
+            <IconButton onClick={handleSignOut}>
               <SignOut size={24} color={colors.primary} />
             </IconButton>
           </UserContent>
