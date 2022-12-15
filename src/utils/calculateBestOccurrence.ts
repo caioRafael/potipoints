@@ -29,6 +29,6 @@ export function calculateBestOccurrence(array: any[]): BestOccurrenceFunction | 
 
 	return {
 		betterAcceptance: bestOccurrence || moreOccurrences,
-		coffeeTime: moreOccurrences === '☕'
+		coffeeTime: moreOccurrences === '☕' && !bestOccurrence
 	}
 }
