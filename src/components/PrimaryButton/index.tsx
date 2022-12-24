@@ -1,11 +1,10 @@
-import { HTMLProps } from "react";
-import { FC, ReactElement } from "react";
-import { Button } from "./styles";
+import { HTMLProps, FC, ReactElement } from 'react'
+import { Button } from './styles'
 
 interface PrimaryButtonProps extends HTMLProps<HTMLButtonElement> {
   text?: string
   icon?: ReactElement
-  type?: "button" | "submit" | "reset" | undefined
+  type?: 'button' | 'submit' | 'reset' | undefined
   width?: number | string
 }
 
@@ -16,11 +15,13 @@ const PrimaryButton: FC<PrimaryButtonProps> = (props) => {
       onClick={onClick}
       type={type}
       style={{
-        width: width
+        width,
       }}
       disabled={props.disabled}
-    >{icon && icon}  {text}</Button>
-  );
+    >
+      {icon && icon} {text}
+    </Button>
+  )
 }
 
-export default PrimaryButton;
+export default PrimaryButton

@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 `

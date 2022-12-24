@@ -1,5 +1,11 @@
-import { FC, useCallback, useState } from "react";
-import { ButtonDropdown, Container, ContentOptions, DropDownList, ListItem } from "./styles";
+import { FC, useCallback, useState } from 'react'
+import {
+  ButtonDropdown,
+  Container,
+  ContentOptions,
+  DropDownList,
+  ListItem,
+} from './styles'
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai'
 
 export interface DropdownItem {
@@ -22,27 +28,28 @@ const Dropdown: FC<DropdownProps> = (props) => {
     setViewOptions(!viewOptions)
   }, [viewOptions])
 
-  const selectItem = useCallback((item: DropdownItem) => {
-    setItem(item)
-    setViewOptions(false)
-  }, [item])
+  const selectItem = useCallback(
+    (item: DropdownItem) => {
+      setItem(item)
+      setViewOptions(false)
+    },
+    [setItem],
+  )
 
   return (
     <Container>
-      <ButtonDropdown
-        onClick={openDropdown}
-      >
-        {viewOptions ?
+      <ButtonDropdown onClick={openDropdown}>
+        {viewOptions ? (
           <AiOutlineUp size={15} style={{ marginRight: 10 }} />
-          :
+        ) : (
           <AiOutlineDown size={15} style={{ marginRight: 10 }} />
-        }
+        )}
         {item.name}
       </ButtonDropdown>
-      {viewOptions &&
+      {viewOptions && (
         <ContentOptions>
           <DropDownList>
-            {list.map(item => (
+            {list.map((item) => (
               <ListItem
                 key={item.value}
                 disabled={item.disabled}
@@ -53,10 +60,9 @@ const Dropdown: FC<DropdownProps> = (props) => {
             ))}
           </DropDownList>
         </ContentOptions>
-      }
+      )}
     </Container>
-  );
+  )
 }
 
-
-export default Dropdown;
+export default Dropdown

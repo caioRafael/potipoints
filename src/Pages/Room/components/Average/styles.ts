@@ -1,8 +1,8 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 
 interface AverageProps {
-  reveled?: boolean;
-  delay?: number;
+  reveled?: boolean
+  delay?: number
 }
 
 const slideIn = keyframes`
@@ -31,18 +31,17 @@ export const Container = styled.div`
 `
 
 export const AverageContainer = styled.span<AverageProps>`
-    display: ${props => props.reveled ? 'flex' : 'none'};
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 8px;
-    animation: 0.5s ${slideIn} ease-in-out backwards;
-    animation-delay:  ${props => `${props.delay}s`};
-    overflow: hidden;
+  display: ${(props) => (props.reveled ? 'flex' : 'none')};
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 8px;
+  animation: 0.5s ${slideIn} ease-in-out backwards;
+  animation-delay: ${(props) => `${props.delay}s`};
+  overflow: hidden;
 
-    p {
-      font-size: 28px;
-      font-weight: bold;
-    }
-
+  p {
+    font-size: 28px;
+    font-weight: bold;
+  }
 `

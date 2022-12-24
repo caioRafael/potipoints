@@ -1,5 +1,5 @@
-import { darken } from "polished";
-import styled from "styled-components";
+import { darken } from 'polished'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   .AvatarRoot {
@@ -12,7 +12,7 @@ export const Container = styled.div`
     width: 45px;
     height: 45px;
     border-radius: 100%;
-    border: solid 2px ${props => darken(0.05, props.theme.colors.primary)};
+    border: solid 2px ${(props) => darken(0.05, props.theme.colors.primary)};
     width: 50px;
     height: 50px;
   }
@@ -31,7 +31,7 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: white;
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
     font-size: 20px;
     line-height: 1;
     font-weight: 700;

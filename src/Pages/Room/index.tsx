@@ -1,6 +1,6 @@
-import { Header } from "../../components";
-import { ContentRoom } from "./components";
-import { Container } from "./styles";
+import { Header } from '../../components'
+import { ContentRoom } from './components'
+import { Container } from './styles'
 
 function Room() {
   return (
@@ -8,7 +8,7 @@ function Room() {
       <Header />
       <ContentRoom />
     </Container>
-  );
+  )
 }
 
-export default Room;
+export default Room
