@@ -20,8 +20,8 @@ export const Global = createGlobalStyle`
     }
   }
   body{
-    background: ${props => props.theme.colors.background};
-    color: ${props => props.theme.colors.color};
+    background: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.color};
   }
   
   body, input, button {

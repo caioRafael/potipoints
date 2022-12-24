@@ -1,43 +1,42 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 0;
 
-    width: 100%;
-    overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 `
 
-
 export const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100px;
+  height: 120px;
+
+  strong {
+    margin-top: 5px;
+  }
+
+  div {
     display: flex;
     flex-direction: column;
-    align-items:  center;
+    align-items: center;
     justify-content: center;
-    gap: 5px;
-    width: 100px;
-    height: 120px;
-    
-    strong{
-        margin-top: 5px;
-    }
-    
-    div{
-        display: flex;
-        flex-direction: column;
-        align-items:  center;
-        justify-content: center;
-        padding: 10px;
-        gap: 2px;
-        width: 80px;
-        height: 100px;
-        border-radius: 5px;
+    padding: 10px;
+    gap: 2px;
+    width: 80px;
+    height: 100px;
+    border-radius: 5px;
 
-        border: solid 1px ${props => props.theme.colors.border};
-    }
+    border: solid 1px ${(props) => props.theme.colors.border};
+  }
 `
