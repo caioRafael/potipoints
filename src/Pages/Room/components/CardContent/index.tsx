@@ -29,7 +29,7 @@ const CardContent: FC<FooterContentProps> = (props) => {
     async (item: number | string) => {
       const vote = String(item) === String(myVote) ? '' : item
 
-      setMyVote(code as string, String(vote), user as User)
+      setMyVote(code as string, vote as string, user as User)
     },
     [myVote, user, code],
   )

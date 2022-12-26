@@ -31,7 +31,7 @@ export function useRoom(codeRoom: string) {
       })
       setUsers(userList)
     })
-  }, [codeRoom, roomRef])
+  }, [codeRoom])
 
   useEffect(() => {
     if (room?.result_reveled) {
