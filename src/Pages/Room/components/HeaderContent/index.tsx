@@ -10,6 +10,7 @@ import { FiCopy } from 'react-icons/fi'
 import { Flip, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { resetAllVotes, toggleVisibleVote } from "../../../../service/votes";
+import { Link } from "react-router-dom";
 
 interface HeaderContentProps {
   setList: (list: number[]) => void
@@ -77,6 +78,10 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
         item={item}
         setItem={setItem}
       />
+
+      <Link to="/presentation">
+        apresentação
+      </Link>
     </Container>
   );
 }
