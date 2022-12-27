@@ -1,12 +1,12 @@
-import { ToastContainer } from "react-toastify"
-import { ThemeProvider } from "styled-components"
-import Routes from "./routes"
-import { Global } from "./styles/global"
-import light from "./styles/themes/light"
+import { ToastContainer } from 'react-toastify'
+import { ThemeProvider } from 'styled-components'
+import Routes from './routes'
+import { Global } from './styles/global'
+import { defaultTheme } from './styles/themes/defaultTheme'
 
 function App() {
   return (
-    <ThemeProvider theme={light}>
+    <ThemeProvider theme={defaultTheme}>
       <div className="App">
         <Global />
         <Routes />

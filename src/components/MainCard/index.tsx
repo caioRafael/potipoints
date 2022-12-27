@@ -1,7 +1,6 @@
-import { Avatar } from "..";
-import { IRoomUser } from "../../context/AuthContext";
-import Image from "../Image";
-import { MainCardStyles } from "./styles";
+import { Avatar } from '..'
+import { IRoomUser } from '../../context/AuthContext'
+import { MainCardStyles } from './styles'
 
 interface MainCardProps {
   user: IRoomUser
@@ -9,7 +8,6 @@ interface MainCardProps {
 }
 
 export function MainCard({ user, reveled = false }: MainCardProps) {
-
   return (
     <MainCardStyles
       reveled={reveled}
@@ -17,15 +15,11 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
       hasVote={!!user.vote || user.vote !== ''}
     >
       <div className="card-inner">
-        <div className='card-front'>
+        <div className="card-front">
           <span>{user.vote || '?'}</span>
         </div>
-        <div className='card-back'>
-          <Avatar
-            src={user.avatar_url}
-            name={user.name}
-            fallbackAsPicture
-          />
+        <div className="card-back">
+          <Avatar src={user.avatar_url} name={user.name} fallbackAsPicture />
         </div>
       </div>
       <strong>{user.name}</strong>
