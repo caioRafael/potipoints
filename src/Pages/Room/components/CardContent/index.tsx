@@ -25,11 +25,13 @@ const CardContent: FC<FooterContentProps> = (props) => {
     return ''
   }, [room, user])
 
+  console.log(myVote)
+
   const handleChangeVote = useCallback(
     async (item: number | string) => {
       const vote = String(item) === String(myVote) ? '' : item
 
-      setMyVote(code as string, String(vote), user as User)
+      setMyVote(code as string, vote as string, user as User)
     },
     [myVote, user, code],
   )
@@ -43,7 +45,8 @@ const CardContent: FC<FooterContentProps> = (props) => {
           key={item}
           onClick={() => handleChangeVote(item)}
           disabled={isDisabledCardList}
-          isCardSelected={myVote === String(item)}
+          //gambiarra para quando o voto é zero, precisa ser corrigida depois
+          isCardSelected={String(myVote || 0) === String(item)}
         >
           <h1>{item}</h1>
         </Card>
