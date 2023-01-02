@@ -20,7 +20,7 @@ const CardContent: FC<FooterContentProps> = (props) => {
     if (room && user) {
       const roomUser = room.users.find((u) => u.user_id === user?.id)
 
-      return roomUser?.vote || ''
+      return typeof roomUser?.vote === 'number' ? roomUser.vote : ''
     }
     return ''
   }, [room, user])
