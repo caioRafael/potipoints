@@ -8,6 +8,8 @@ interface MainCardProps {
 }
 
 export function MainCard({ user, reveled = false }: MainCardProps) {
+  const userVote = user.vote !== undefined ? user.vote : '?'
+
   return (
     <MainCardStyles
       reveled={reveled}
@@ -16,7 +18,7 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
     >
       <div className="card-inner">
         <div className="card-front">
-          <span>{user.vote || '?'}</span>
+          <span>{userVote}</span>
         </div>
         <div className="card-back">
           <Avatar src={user.avatar_url} name={user.name} fallbackAsPicture />
