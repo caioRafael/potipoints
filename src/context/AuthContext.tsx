@@ -15,6 +15,7 @@ export interface IRoomUser {
 
 export interface IRoom {
   users: IRoomUser[]
+  admins: string[]
   code: string
   result_reveled: boolean
   result_average?: number
@@ -85,6 +86,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
     const initialRoom: IRoom = {
       users: [],
+      admins: [user.id],
       code: roomCode,
       result_reveled: false,
       voting_system: 'fibonacci',
