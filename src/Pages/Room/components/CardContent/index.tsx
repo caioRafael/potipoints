@@ -17,7 +17,6 @@ const CardContent: FC<FooterContentProps> = (props) => {
   const { room } = useRoom(code as string)
 
   const myVote: string = useMemo(() => {
-    console.log(!!(room && user))
     if (room && user) {
       const roomUser = room.users.find((u) => u.user_id === user?.id)
 
