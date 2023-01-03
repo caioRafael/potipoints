@@ -11,6 +11,7 @@ export interface IRoomUser {
   avatar_url: string
   name: string
   email: string
+  status: boolean
 }
 
 export interface IRoom {
@@ -82,6 +83,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
+      status: true
     }
 
     const initialRoom: IRoom = {
@@ -114,6 +116,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
+      status: true
     }
     const roomRef = ref(database, `/rooms/${code}`)
 

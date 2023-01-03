@@ -1,33 +1,31 @@
 import { Header } from '../../components'
 import { ContentRoom } from './components'
 import { Container } from './styles'
-import {auth, database} from '../../service/firebase'
-import { onDisconnect, onValue, ref, set } from 'firebase/database'
 import { useParams } from 'react-router-dom';
 import {useEffect} from 'react'
+import { onDisconnect, onValue, ref, set } from 'firebase/database';
+import {database} from '../../service/firebase'
+import { useAuth } from './../../hooks/useAuth';
 
 function Room() {
   const {code} = useParams()
-  const uid = auth.currentUser?.uid
-  console.log(uid)
+  const { user } = useAuth()
+  const statusUserConnectionRef = ref(database, `/rooms/${code}/users/${user?.id}/status`)
+  const connectionDatabaseRef = ref(database, '.info/connected')
 
-  const statusUserInRoomRef = ref(database, `/rooms/${code}/users/${uid}/status`)
+  useEffect(() => {
+    onValue(connectionDatabaseRef, snapshot => {
+      if(snapshot.val() === true){
+        set(statusUserConnectionRef, true)
 
-  useEffect(()=>{
-    const infoRef = ref(database, '.info/connected')
-    onValue(infoRef, async (snapchot) => {
-      if(snapchot.val() === false) return;
-
-      // statusUserInRoomRef
-      await onDisconnect(statusUserInRoomRef).set(false).then(() => {
-        set(statusUserInRoomRef, true)
-      })
+        onDisconnect(statusUserConnectionRef).set(false)
+      }
     })
-  }, [code])
+  }, [code, user?.id])
 
   return (
     <Container>
-      <Header />
+      <Header/>
       <ContentRoom />
     </Container>
   )
