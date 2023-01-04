@@ -11,10 +11,12 @@ export interface IRoomUser {
   avatar_url: string
   name: string
   email: string
+  status: boolean
 }
 
 export interface IRoom {
   users: IRoomUser[]
+  admins: string[]
   code: string
   result_reveled: boolean
   result_average?: number
@@ -81,10 +83,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
+      status: true
     }
 
     const initialRoom: IRoom = {
       users: [],
+      admins: [user.id],
       code: roomCode,
       result_reveled: false,
       voting_system: 'fibonacci',
@@ -112,6 +116,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
+      status: true
     }
     const roomRef = ref(database, `/rooms/${code}`)
 

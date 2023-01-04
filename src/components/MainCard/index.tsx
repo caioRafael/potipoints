@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react'
 import { Avatar } from '..'
 import { IRoomUser } from '../../context/AuthContext'
 import { MainCardStyles } from './styles'

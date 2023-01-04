@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react'
-import { ChangeButton, PrimaryButton } from '../../../../components'
+import { FC, useEffect, useState, useMemo } from 'react'
+import { ChangeButton, PrimaryButton, Toltip } from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
 import decimal from '../../../../utils/decimal'
@@ -24,6 +24,11 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
     name: 'Fibonacci',
     value: 1,
   })
+
+  const verifySituationVotes = useMemo(() => {
+    //utilizando o metodo some para verificar se tem algum voto em branch
+    return users.filter(user => user.status === true).some(user => user.vote === '' )
+  }, [users])
 
   useEffect(() => {
     if (item.value === 1) {
@@ -50,11 +55,17 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
   return (
     <Container>
       <section>
-        <PrimaryButton
-          width={100}
-          text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
-          onClick={handleVisibleVote}
-        />
+        <Toltip 
+          message='Aguarde todos votarem'
+          isVisible={verifySituationVotes}
+        >
+          <PrimaryButton
+            width={100}
+            text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
+            onClick={handleVisibleVote}
+            disabled={verifySituationVotes}
+          />
+        </Toltip>
         <ChangeButton
           width={100}
           text="Resetar"

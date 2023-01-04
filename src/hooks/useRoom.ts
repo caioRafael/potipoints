@@ -27,9 +27,14 @@ export function useRoom(codeRoom: string) {
           avatar_url: value.avatar_url,
           name: value.name?.split(' ')[0],
           email: value.email,
+          status: value.status
         }
       })
-      setUsers(userList)
+
+
+      setUsers(userList.filter(user => {
+        return user.user_id !== undefined && user.status === true
+      }) as IRoomUser[])
     })
   }, [codeRoom])
 

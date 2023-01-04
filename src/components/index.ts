@@ -7,6 +7,7 @@ import { Container } from './Container'
 import { MainCard } from './MainCard'
 import Header from './Header'
 import Avatar from './Avatar'
+import Toltip from './Toltip/index';
 
 export {
   Image,
@@ -18,4 +19,5 @@ export {
   Container,
   Header,
   Avatar,
+  Toltip
 }
