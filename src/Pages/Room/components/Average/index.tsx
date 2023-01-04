@@ -19,11 +19,12 @@ const Average: FC<AverageProps> = ({ reveled }) => {
 
   const votesAverage = average(votes)
 
-  const formattedAverageVotes = votesAverage
-    ? new Intl.NumberFormat('pt-BR', {
-        maximumFractionDigits: 2,
-      }).format(votesAverage)
-    : undefined
+  const formattedAverageVotes =
+    votesAverage !== undefined
+      ? new Intl.NumberFormat('pt-BR', {
+          maximumFractionDigits: 2,
+        }).format(votesAverage)
+      : undefined
 
   const options: LottieOptions = {
     animationData: Congrats,
@@ -55,13 +56,15 @@ const Average: FC<AverageProps> = ({ reveled }) => {
   return (
     <Container>
       {CongratsAnimate}
-      <AverageContainer reveled={reveled}>
-        <h2>Melhor escolha:</h2>
-        <Card aria-readonly={room?.result_reveled}>
-          <h1>{betterAcceptance}</h1>
-        </Card>
-      </AverageContainer>
-      {votesAverage && (
+      {betterAcceptance !== '' && (
+        <AverageContainer reveled={reveled}>
+          <h2>Melhor escolha:</h2>
+          <Card aria-readonly={room?.result_reveled}>
+            <h1>{betterAcceptance}</h1>
+          </Card>
+        </AverageContainer>
+      )}
+      {!!votesAverage && (
         <AverageContainer reveled={reveled} delay={0.2}>
           <h2>Média:</h2>
           <p>{formattedAverageVotes}</p>
