@@ -30,7 +30,11 @@ export function useRoom(codeRoom: string) {
           status: value.status
         }
       })
-      setUsers(userList as IRoomUser[])
+
+
+      setUsers(userList.filter(user => {
+        return user.user_id !== undefined && user.status === true
+      }) as IRoomUser[])
     })
   }, [codeRoom])
 
