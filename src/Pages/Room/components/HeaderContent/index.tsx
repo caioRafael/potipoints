@@ -1,5 +1,5 @@
 import { FC, useEffect, useState, useMemo } from 'react'
-import { ChangeButton, PrimaryButton, Toltip } from '../../../../components'
+import { ChangeButton, PrimaryButton, Tooltip } from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
 import decimal from '../../../../utils/decimal'
@@ -55,7 +55,7 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
   return (
     <Container>
       <section>
-        <Toltip 
+        <Tooltip 
           message='Aguarde todos votarem'
           isVisible={verifySituationVotes}
         >
@@ -65,7 +65,7 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
             onClick={handleVisibleVote}
             disabled={verifySituationVotes}
           />
-        </Toltip>
+        </Tooltip>
         <ChangeButton
           width={100}
           text="Resetar"

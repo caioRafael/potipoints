@@ -7,7 +7,7 @@ interface ToltipProps {
     isVisible?: boolean
 }
  
-const Toltip: FC<ToltipProps> = (props) => {
+const Tooltip: FC<ToltipProps> = (props) => {
     const {children, message, isVisible = false} = props
 
     return (
@@ -22,5 +22,5 @@ const Toltip: FC<ToltipProps> = (props) => {
     );
 }
  
-export default Toltip;
+export default Tooltip;
 
