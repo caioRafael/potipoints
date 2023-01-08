@@ -10,13 +10,12 @@ const MainContent: FC = () => {
   return (
     <Container>
       {users.map((user) => (
-            <MainCard
-              user={user}
-              reveled={room?.result_reveled}
-              key={user.user_id}
-            />
-          )
-        
+          <MainCard
+            user={user}
+            reveled={room?.result_reveled}
+            key={user.user_id}
+          />
+        )
       )}
     </Container>
   )

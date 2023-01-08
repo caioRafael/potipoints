@@ -1,8 +1,10 @@
-import { MouseEvent, useState } from 'react'
+import { MouseEvent, useCallback, useState, useMemo } from 'react'
 import { Avatar, RightClickMenu } from '..'
 import { IRoomUser } from '../../context/AuthContext'
-import { IRightClickMenu } from '../RightClickMenu'
+import { IItemMenu, IRightClickMenu } from '../RightClickMenu'
 import { MainCardStyles } from './styles'
+import { useParams } from 'react-router-dom';
+import { useAdmin } from '../../hooks/useAdmin'
 
 interface MainCardProps {
   user: IRoomUser
@@ -10,13 +12,38 @@ interface MainCardProps {
 }
 
 export function MainCard({ user, reveled = false }: MainCardProps) {
+  const {code} = useParams()
+  const { isAdmin } = useAdmin(code as string)
   const userVote = user.vote !== undefined ? user.vote : '?'
-  const [menu, setMenu] = useState(true)
+  const [menu, setMenu] = useState(false)
+  const [position, setPosition] = useState<IRightClickMenu>({
+    x: 0,
+    y: 0,
+  })
 
-  const handleMenu = (event: MouseEvent) => {
+  // console.log(isAdmin)
+
+  const handleMenu = useCallback((event: MouseEvent) => {
     event.preventDefault()
     setMenu(!menu)
-  }
+    setPosition({
+      x: event.clientX,
+      y: event.clientY
+    })
+  }, [position, menu])
+
+  const itemsMenu: IItemMenu[] = useMemo(() => [
+    {
+      key: 'newAdmin',
+      name: 'Tornar admin',
+      action: () => console.log('novo admin')
+    },
+    {
+      key: 'kickOut',
+      name: 'Expulsar da sala',
+      action: () => console.log('expulsar da sala')
+    }
+  ], [])
 
   return (
     <>
@@ -36,13 +63,15 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
         </div>
         <strong>{user.name}</strong>
       </MainCardStyles>
-      <RightClickMenu
-        position={{
-          x: 0,
-          y: 0,
-        } as IRightClickMenu}
-        visible={menu}
-      />
+      {
+        isAdmin &&
+        <RightClickMenu
+          position={position}
+          visible={menu}
+          dismiss={setMenu}
+          items={itemsMenu}
+        />
+      }
     </>
   )
 }
