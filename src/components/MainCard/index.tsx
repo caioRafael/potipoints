@@ -5,6 +5,7 @@ import { IItemMenu, IRightClickMenu } from '../RightClickMenu'
 import { MainCardStyles } from './styles'
 import { useParams } from 'react-router-dom';
 import { useAdmin } from '../../hooks/useAdmin'
+import { makeUserAdmin } from '../../service/admin'
 
 interface MainCardProps {
   user: IRoomUser
@@ -36,7 +37,7 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
     {
       key: 'newAdmin',
       name: 'Tornar admin',
-      action: () => console.log('novo admin')
+      action: () => makeUserAdmin(code, user.user_id)
     },
     {
       key: 'kickOut',
