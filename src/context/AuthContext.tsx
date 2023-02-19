@@ -83,7 +83,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
-      status: true
+      status: true,
     }
 
     const initialRoom: IRoom = {
@@ -116,7 +116,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       name: user.name,
       email: user.email,
       vote: '',
-      status: true
+      status: true,
     }
     const roomRef = ref(database, `/rooms/${code}`)
 
@@ -126,17 +126,17 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       if (!existedRoom) {
         throw new Error('room not exist')
       }
-
-      // alteração feita para que o id ddo usuário seja a key no banco
-      const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`)
-      await set(addUserInRoomRef, roomUser)
     })
+    // alteração feita para que o id ddo usuário seja a key no banco
+    const addUserInRoomRef = ref(database, `/rooms/${code}/users/${user.id}`)
+    await set(addUserInRoomRef, roomUser)
   }
 
   async function signInWithGoogle(code?: string) {
     let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
 
     const result = await signInWithPopup(auth, provider)
+    console.log(result)
     let newUser: User
 
     if (result.user) {
