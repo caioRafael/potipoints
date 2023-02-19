@@ -3,7 +3,7 @@ import { Avatar, RightClickMenu } from '..'
 import { IRoomUser } from '../../context/AuthContext'
 import { IItemMenu, IRightClickMenu } from '../RightClickMenu'
 import { MainCardStyles } from './styles'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import { useAdmin } from '../../hooks/useAdmin'
 import { kickUser, makeUserAdmin } from '../../service/admin'
 
@@ -13,7 +13,7 @@ interface MainCardProps {
 }
 
 export function MainCard({ user, reveled = false }: MainCardProps) {
-  const {code} = useParams()
+  const { code } = useParams()
   const { isAdmin } = useAdmin(code as string)
   const userVote = user.vote !== undefined ? user.vote : '?'
   const [menu, setMenu] = useState(false)
@@ -24,27 +24,33 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
 
   // console.log(isAdmin)
 
-  const handleMenu = useCallback((event: MouseEvent) => {
-    event.preventDefault()
-    setMenu(!menu)
-    setPosition({
-      x: event.clientX,
-      y: event.clientY
-    })
-  }, [position, menu])
-
-  const itemsMenu: IItemMenu[] = useMemo(() => [
-    {
-      key: 'newAdmin',
-      name: 'Tornar admin',
-      action: () => makeUserAdmin(code as string, user.user_id)
+  const handleMenu = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault()
+      setMenu(!menu)
+      setPosition({
+        x: event.clientX,
+        y: event.clientY,
+      })
     },
-    {
-      key: 'kickOut',
-      name: 'Expulsar da sala',
-      action: () => kickUser(code as string, user.user_id)
-    }
-  ], [])
+    [position, menu],
+  )
+
+  const itemsMenu: IItemMenu[] = useMemo(
+    () => [
+      {
+        key: 'newAdmin',
+        name: 'Tornar admin',
+        action: () => makeUserAdmin(code as string, user.user_id),
+      },
+      {
+        key: 'kickOut',
+        name: 'Expulsar da sala',
+        action: () => kickUser(code as string, user.user_id),
+      },
+    ],
+    [],
+  )
 
   return (
     <>
@@ -64,15 +70,14 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
         </div>
         <strong>{user.name}</strong>
       </MainCardStyles>
-      {
-        isAdmin &&
+      {isAdmin && (
         <RightClickMenu
           position={position}
           visible={menu}
           dismiss={setMenu}
           items={itemsMenu}
         />
-      }
+      )}
     </>
   )
 }
