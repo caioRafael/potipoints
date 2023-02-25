@@ -1,4 +1,4 @@
-export default function fibonacci() {
+export default function fibonacci(): number[] {
   const fibonacci: number[] = []
 
   for (let i = 0; i <= 11; i++) {
