@@ -138,7 +138,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
 
     const result = await signInWithPopup(auth, provider)
-    console.log(result)
     let newUser: User
 
     if (result.user) {

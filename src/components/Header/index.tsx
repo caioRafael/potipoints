@@ -19,6 +19,7 @@ const Header: FC = () => {
 
   const handleSignOut = useCallback(async () => {
     if (window.confirm('Você será deslogado do sistema!')) {
+      console.log('botao de deslogar')
       signOut('/')
     }
   }, [signOut])

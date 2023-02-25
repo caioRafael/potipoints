@@ -22,8 +22,6 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
     y: 0,
   })
 
-  // console.log(isAdmin)
-
   const handleMenu = useCallback(
     (event: MouseEvent) => {
       event.preventDefault()
@@ -43,11 +41,11 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
         name: 'Tornar admin',
         action: () => makeUserAdmin(code as string, user.user_id),
       },
-      {
-        key: 'kickOut',
-        name: 'Expulsar da sala',
-        action: () => kickUser(code as string, user.user_id),
-      },
+      // {
+      //   key: 'kickOut',
+      //   name: 'Expulsar da sala',
+      //   action: () => kickUser(code as string, user.user_id),
+      // },
     ],
     [],
   )

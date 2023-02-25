@@ -2,23 +2,23 @@ import { onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { IRoom, IRoomUser } from '../context/AuthContext'
 import { database } from '../service/firebase'
-import { useAuth } from './useAuth'
 
 export function useRoom(codeRoom: string) {
-  const { user, signOut } = useAuth()
+  // const { user, signOut } = useAuth()
   const [users, setUsers] = useState<IRoomUser[]>([])
   const [room, setRoom] = useState<IRoom>()
   const [votes, setVotes] = useState<string[]>([])
 
   const roomRef = ref(database, `/rooms/${codeRoom}`)
 
-  useEffect(() => {
-    const checkUserInRoom = users.some((u) => u.user_id === user?.id)
-
-    if (!checkUserInRoom && users.length > 0) {
-      signOut('/')
-    }
-  }, [users])
+  // comentar enquanto não tem uma solução melhor para o bug do login
+  // useEffect(() => {
+  //   const checkUserInRoom = users.some((u) => u.user_id === user?.id)
+  //   console.log('useEffect de verificação')
+  //   if (!checkUserInRoom && users.length > 0) {
+  //     signOut('/')
+  //   }
+  // }, [users, signOut, user?.id])
 
   useEffect(() => {
     onValue(roomRef, async (snapshot) => {

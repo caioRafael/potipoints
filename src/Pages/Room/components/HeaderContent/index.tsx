@@ -1,4 +1,4 @@
-import { FC, useState, useMemo, useEffect } from 'react'
+import { FC, useMemo, useCallback } from 'react'
 import { ChangeButton, PrimaryButton, Tooltip } from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
@@ -10,15 +10,25 @@ import 'react-toastify/dist/ReactToastify.css'
 import { resetAllVotes, toggleVisibleVote } from '../../../../service/votes'
 import { ScoringListEnum } from '../../../../enums/ScoringListEnum'
 import { setScoringSystem } from '../../../../service/votes/setScoringSystem'
+import ScoringListRecord from '../../../../records/ScoringListRecord'
 
 const HeaderContent: FC = () => {
   const { code } = useParams()
   const { room, users } = useRoom(code as string)
 
-  const [item, setItem] = useState<DropdownItem>({
-    name: 'Fibonacci',
-    value: ScoringListEnum.Fibonacci,
-  })
+  const item = useMemo(() => {
+    return {
+      name: ScoringListRecord[room?.voting_system as number],
+      value: room?.voting_system as number,
+    } as DropdownItem
+  }, [room])
+
+  const setItem = useCallback(
+    async (item: DropdownItem) => {
+      await setScoringSystem(code as string, item.value)
+    },
+    [code, room],
+  )
 
   const verifySituationVotes = useMemo(() => {
     // utilizando o metodo some para verificar se tem algum voto em branco
@@ -26,10 +36,6 @@ const HeaderContent: FC = () => {
       .filter((user) => user.status === true)
       .some((user) => user.vote === '')
   }, [users])
-
-  useEffect(() => {
-    setScoringSystem(code as string, item.value)
-  }, [item])
 
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
@@ -81,11 +87,11 @@ export default HeaderContent
 
 const ListItems: DropdownItem[] = [
   {
-    name: 'Fibonacci',
+    name: ScoringListRecord[ScoringListEnum.Fibonacci as number],
     value: ScoringListEnum.Fibonacci,
   },
   {
-    name: 'Decimal',
+    name: ScoringListRecord[ScoringListEnum.Decimal as number],
     value: ScoringListEnum.Decimal,
   },
 ]
