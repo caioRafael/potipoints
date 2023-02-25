@@ -5,7 +5,7 @@ import { database } from '../service/firebase'
 import { useAuth } from './useAuth'
 
 export function useRoom(codeRoom: string) {
-  const {user, signOut} = useAuth()
+  const { user, signOut } = useAuth()
   const [users, setUsers] = useState<IRoomUser[]>([])
   const [room, setRoom] = useState<IRoom>()
   const [votes, setVotes] = useState<string[]>([])
@@ -13,9 +13,9 @@ export function useRoom(codeRoom: string) {
   const roomRef = ref(database, `/rooms/${codeRoom}`)
 
   useEffect(() => {
-    const checkUserInRoom = users.some(u => u.user_id === user?.id)
+    const checkUserInRoom = users.some((u) => u.user_id === user?.id)
 
-    if(!checkUserInRoom && users.length > 0) {
+    if (!checkUserInRoom && users.length > 0) {
       signOut('/')
     }
   }, [users])
@@ -37,14 +37,15 @@ export function useRoom(codeRoom: string) {
           avatar_url: value.avatar_url,
           name: value.name?.split(' ')[0],
           email: value.email,
-          status: value.status
+          status: value.status,
         }
       })
 
-
-      setUsers(userList.filter(user => {
-        return user.user_id !== undefined && user.status === true
-      }) as IRoomUser[])
+      setUsers(
+        userList.filter((user) => {
+          return user.user_id !== undefined && user.status === true
+        }) as IRoomUser[],
+      )
     })
   }, [codeRoom])
 

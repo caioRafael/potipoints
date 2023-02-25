@@ -3,6 +3,7 @@ import { auth, database, provider } from '../service/firebase'
 import { signInWithPopup } from 'firebase/auth'
 import { ref, set, onValue, DataSnapshot, remove } from 'firebase/database'
 import { useNavigate } from 'react-router-dom'
+import { ScoringListEnum } from '../enums/ScoringListEnum'
 
 export interface IRoomUser {
   // key?: string;
@@ -20,7 +21,7 @@ export interface IRoom {
   code: string
   result_reveled: boolean
   result_average?: number
-  voting_system: string
+  voting_system: number
 }
 
 export type User = {
@@ -67,6 +68,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   async function signOut(navigateTo?: string) {
+    console.log('deslogou')
     await removeUserFromRoom(code, user?.id as string)
     setUser(null)
     setCode('')
@@ -91,7 +93,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       admins: [user.id],
       code: roomCode,
       result_reveled: false,
-      voting_system: 'fibonacci',
+      voting_system: ScoringListEnum.Fibonacci,
       // created_by_user: initialRoomUser,
     }
 

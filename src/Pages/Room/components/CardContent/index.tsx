@@ -5,13 +5,11 @@ import { Card, Container } from '../../../../components'
 import { useAuth } from '../../../../hooks/useAuth'
 import { setMyVote } from '../../../../service/votes'
 import { User } from '../../../../context/AuthContext'
+import { ScoringListEnum } from '../../../../enums/ScoringListEnum'
+import fibonacci from '../../../../utils/fibonacci'
+import decimal from '../../../../utils/decimal'
 
-interface FooterContentProps {
-  cardList: number[]
-}
-
-const CardContent: FC<FooterContentProps> = (props) => {
-  const { cardList } = props
+const CardContent: FC = () => {
   const { user } = useAuth()
   const { code } = useParams()
   const { room } = useRoom(code as string)
@@ -27,6 +25,17 @@ const CardContent: FC<FooterContentProps> = (props) => {
     return ''
   }, [room, user])
 
+  const newCardList = useMemo(() => {
+    switch (room?.voting_system) {
+      case ScoringListEnum.Fibonacci:
+        return fibonacci() as number[]
+      case ScoringListEnum.Decimal:
+        return decimal() as number[]
+      default:
+        break
+    }
+  }, [room])
+
   const handleChangeVote = useCallback(
     async (item: number | string) => {
       const vote = String(item) === String(myVote) ? '' : item
@@ -40,7 +49,7 @@ const CardContent: FC<FooterContentProps> = (props) => {
 
   return (
     <Container>
-      {cardList.map((item) => (
+      {newCardList?.map((item) => (
         <Card
           key={item}
           onClick={() => handleChangeVote(item)}
