@@ -14,7 +14,6 @@ export function useRoom(codeRoom: string) {
   // comentar enquanto não tem uma solução melhor para o bug do login
   // useEffect(() => {
   //   const checkUserInRoom = users.some((u) => u.user_id === user?.id)
-  //   console.log('useEffect de verificação')
   //   if (!checkUserInRoom && users.length > 0) {
   //     signOut('/')
   //   }

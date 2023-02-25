@@ -68,7 +68,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   async function signOut(navigateTo?: string) {
-    console.log('deslogou')
     await removeUserFromRoom(code, user?.id as string)
     setUser(null)
     setCode('')
