@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useMemo } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 import {
   ChangeButton,
   PrimaryButton,
@@ -6,42 +6,40 @@ import {
 } from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
-import decimal from '../../../../utils/decimal'
-import fibonacci from '../../../../utils/fibonacci'
 import { Container, RoomCode } from './styles'
 import { useParams } from 'react-router-dom'
 import { FiCopy } from 'react-icons/fi'
 import { Flip, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { resetAllVotes, toggleVisibleVote } from '../../../../service/votes'
+import { ScoringListEnum } from '../../../../enums/ScoringListEnum'
+import { setScoringSystem } from '../../../../service/votes/setScoringSystem'
+import ScoringListRecord from '../../../../records/ScoringListRecord'
 
-interface HeaderContentProps {
-  setList: (list: number[]) => void
-}
-
-const HeaderContent: FC<HeaderContentProps> = (props) => {
-  const { setList } = props
+const HeaderContent: FC = () => {
   const { code } = useParams()
   const { room, users } = useRoom(code as string)
 
-  const [item, setItem] = useState<DropdownItem>({
-    name: 'Fibonacci',
-    value: 1,
-  })
+  const item = useMemo(() => {
+    return {
+      name: ScoringListRecord[room?.voting_system as number],
+      value: room?.voting_system as number,
+    } as DropdownItem
+  }, [room])
+
+  const setItem = useCallback(
+    async (item: DropdownItem) => {
+      await setScoringSystem(code as string, item.value)
+    },
+    [code, room],
+  )
 
   const hasBlankVotes = useMemo(() => {
+    // utilizando o método some para verificar se tem algum voto em branco
     return users
       .filter((user) => user.status === true)
       .some((user) => user.vote === '')
   }, [users])
-
-  useEffect(() => {
-    if (item.value === 1) {
-      setList(fibonacci())
-    } else if (item.value === 2) {
-      setList(decimal())
-    }
-  }, [item, setList])
 
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
@@ -93,12 +91,11 @@ export default HeaderContent
 
 const ListItems: DropdownItem[] = [
   {
-    name: 'Fibonacci',
-    value: 1,
+    name: ScoringListRecord[ScoringListEnum.Fibonacci as number],
+    value: ScoringListEnum.Fibonacci,
   },
   {
-    name: 'Decimal',
-    value: 2,
-    disabled: true,
+    name: ScoringListRecord[ScoringListEnum.Decimal as number],
+    value: ScoringListEnum.Decimal,
   },
 ]
