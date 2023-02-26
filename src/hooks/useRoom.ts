@@ -1,32 +1,37 @@
 import { onValue, ref } from 'firebase/database'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { IRoom, IRoomUser } from '../context/AuthContext'
 import { database } from '../service/firebase'
 import { useAuth } from './useAuth'
 
 export function useRoom(codeRoom: string) {
-  const {user, signOut} = useAuth()
+  const { user, signOut } = useAuth()
   const [users, setUsers] = useState<IRoomUser[]>([])
   const [room, setRoom] = useState<IRoom>()
   const [votes, setVotes] = useState<string[]>([])
 
-  const roomRef = ref(database, `/rooms/${codeRoom}`)
+  const roomRef = useMemo(() => ref(database, `/rooms/${codeRoom}`), [codeRoom])
 
   useEffect(() => {
-    const checkUserInRoom = users.some(u => u.user_id === user?.id)
+    const checkUserInRoom = users.some((u) => u.user_id === user?.id)
+    console.log(checkUserInRoom)
 
-    if(!checkUserInRoom && users.length > 0) {
+    if (!checkUserInRoom && users.length > 0) {
       signOut('/')
     }
-  }, [users])
+  }, [users, user, signOut])
 
   useEffect(() => {
     onValue(roomRef, async (snapshot) => {
       const data = await snapshot.val()
 
+      // eslint-disable-next-line prettier/prettier
+      const serverUsersFiltered = Object.entries(data.users).map(([_, user]) => user) as unknown as IRoomUser[]
+      const usersInRoom = serverUsersFiltered
+
       const room: IRoom = {
         ...data,
-        users: Object.entries(data.users).map(([_, user]) => user),
+        users: usersInRoom,
       }
 
       setRoom(room)
@@ -37,16 +42,17 @@ export function useRoom(codeRoom: string) {
           avatar_url: value.avatar_url,
           name: value.name?.split(' ')[0],
           email: value.email,
-          status: value.status
+          status: value.status,
         }
       })
 
-
-      setUsers(userList.filter(user => {
-        return user.user_id !== undefined && user.status === true
-      }) as IRoomUser[])
+      setUsers(
+        userList.filter((user) => {
+          return user.user_id !== undefined && user.status === true
+        }) as IRoomUser[],
+      )
     })
-  }, [codeRoom])
+  }, [roomRef])
 
   useEffect(() => {
     if (room?.result_reveled) {

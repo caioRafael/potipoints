@@ -1,5 +1,9 @@
 import { FC, useEffect, useState, useMemo } from 'react'
-import { ChangeButton, PrimaryButton, Tooltip } from '../../../../components'
+import {
+  ChangeButton,
+  PrimaryButton,
+  TooltipHost,
+} from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
 import decimal from '../../../../utils/decimal'
@@ -25,9 +29,10 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
     value: 1,
   })
 
-  const verifySituationVotes = useMemo(() => {
-    //utilizando o metodo some para verificar se tem algum voto em branch
-    return users.filter(user => user.status === true).some(user => user.vote === '' )
+  const hasBlankVotes = useMemo(() => {
+    return users
+      .filter((user) => user.status === true)
+      .some((user) => user.vote === '')
   }, [users])
 
   useEffect(() => {
@@ -55,17 +60,17 @@ const HeaderContent: FC<HeaderContentProps> = (props) => {
   return (
     <Container>
       <section>
-        <Tooltip 
-          message='Aguarde todos votarem'
-          isVisible={verifySituationVotes}
+        <TooltipHost
+          content="Aguarde até que todos votem"
+          disabled={!hasBlankVotes}
         >
           <PrimaryButton
             width={100}
             text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
             onClick={handleVisibleVote}
-            disabled={verifySituationVotes}
+            disabled={hasBlankVotes}
           />
-        </Tooltip>
+        </TooltipHost>
         <ChangeButton
           width={100}
           text="Resetar"

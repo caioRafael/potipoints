@@ -22,8 +22,6 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
     y: 0,
   })
 
-  // console.log(isAdmin)
-
   const handleMenu = useCallback(
     (event: MouseEvent) => {
       event.preventDefault()
@@ -33,24 +31,28 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
         y: event.clientY,
       })
     },
-    [position, menu],
+    [menu],
   )
 
-  const itemsMenu: IItemMenu[] = useMemo(
-    () => [
-      {
-        key: 'newAdmin',
-        name: 'Tornar admin',
-        action: () => makeUserAdmin(code as string, user.user_id),
-      },
+  const itemsMenu: IItemMenu[] = useMemo(() => {
+    const items: IItemMenu[] = [
       {
         key: 'kickOut',
         name: 'Expulsar da sala',
         action: () => kickUser(code as string, user.user_id),
       },
-    ],
-    [],
-  )
+    ]
+
+    if (!isAdmin) {
+      items.push({
+        key: 'newAdmin',
+        name: 'Tornar admin',
+        action: () => makeUserAdmin(code as string, user.user_id),
+      })
+    }
+
+    return items
+  }, [code, user.user_id, isAdmin])
 
   return (
     <>

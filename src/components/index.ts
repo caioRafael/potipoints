@@ -7,8 +7,9 @@ import { Container } from './Container'
 import { MainCard } from './MainCard'
 import Header from './Header'
 import Avatar from './Avatar'
-import Tooltip from './Tooltip/index';
-import RightClickMenu from './RightClickMenu/index';
+import Tooltip from './Tooltip/index'
+import RightClickMenu from './RightClickMenu/index'
+import TooltipHost from './TooltipHost'
 
 export {
   Image,
@@ -21,5 +22,6 @@ export {
   Header,
   Avatar,
   Tooltip,
-  RightClickMenu
+  TooltipHost,
+  RightClickMenu,
 }
