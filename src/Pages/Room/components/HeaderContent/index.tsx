@@ -41,8 +41,6 @@ const HeaderContent: FC = () => {
       .some((user) => user.vote === '')
   }, [users])
 
-  console.log(hasBlankVotes)
-
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
     toast.info('Código copiado!', {

@@ -9,8 +9,6 @@ interface TooltipHostProps {
 }
 
 const TooltipHost = ({ children, content, disabled }: TooltipHostProps) => {
-  console.log(disabled)
-
   return (
     <Tooltip.Provider delayDuration={300} disableHoverableContent={disabled}>
       <Tooltip.Root>
