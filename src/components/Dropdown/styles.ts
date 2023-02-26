@@ -4,8 +4,6 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: ${(props) => props.style?.width || '200px'};
   height: 50px;
-
-  z-index: 10;
 `
 
 export const ButtonDropdown = styled.button`
@@ -40,6 +38,7 @@ export const ContentOptions = styled.div`
 `
 
 export const DropDownList = styled.ul`
+  z-index: 10;
   padding: 0;
   margin: 0;
   margin-top: 2px;

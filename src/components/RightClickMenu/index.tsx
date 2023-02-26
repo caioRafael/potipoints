@@ -10,6 +10,7 @@ export interface IItemMenu {
   key: string | number
   name: string
   action?: () => void
+  disabled?: boolean
 }
 
 interface RightClickMenuProps {
@@ -33,7 +34,11 @@ export default function RightClickMenu(props: RightClickMenuProps) {
       {visible && (
         <Container x={position.x} y={position.y}>
           {items.map((item) => (
-            <li onClick={item?.action} key={item.key}>
+            <li
+              onClick={!item.disabled ? item?.action : undefined}
+              data-disabled={item.disabled}
+              key={item.key}
+            >
               {item.name}
             </li>
           ))}
