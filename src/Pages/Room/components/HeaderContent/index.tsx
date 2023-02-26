@@ -31,7 +31,7 @@ const HeaderContent: FC = () => {
     async (item: DropdownItem) => {
       await setScoringSystem(code as string, item.value)
     },
-    [code, room],
+    [code],
   )
 
   const hasBlankVotes = useMemo(() => {
@@ -40,6 +40,8 @@ const HeaderContent: FC = () => {
       .filter((user) => user.status === true)
       .some((user) => user.vote === '')
   }, [users])
+
+  console.log(hasBlankVotes)
 
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)

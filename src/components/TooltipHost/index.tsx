@@ -9,17 +9,21 @@ interface TooltipHostProps {
 }
 
 const TooltipHost = ({ children, content, disabled }: TooltipHostProps) => {
+  console.log(disabled)
+
   return (
     <Tooltip.Provider delayDuration={300} disableHoverableContent={disabled}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
-          <div>{children}</div>
+          <span tabIndex={0}>{children}</span>
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <TooltipContent side="bottom">
-            {content}
-            <TooltipArrow />
-          </TooltipContent>
+          {!disabled && (
+            <TooltipContent side="bottom">
+              {content}
+              <TooltipArrow />
+            </TooltipContent>
+          )}
         </Tooltip.Portal>
       </Tooltip.Root>
     </Tooltip.Provider>
