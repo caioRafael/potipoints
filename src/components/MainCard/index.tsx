@@ -5,7 +5,7 @@ import { IItemMenu, IRightClickMenu } from '../RightClickMenu'
 import { MainCardStyles } from './styles'
 import { useParams } from 'react-router-dom'
 import { useAdmin } from '../../hooks/useAdmin'
-import { kickUser, makeUserAdmin } from '../../service/admin'
+import { makeUserAdmin } from '../../service/admin'
 
 interface MainCardProps {
   user: IRoomUser
@@ -31,7 +31,7 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
         y: event.clientY,
       })
     },
-    [position, menu],
+    [menu],
   )
 
   const itemsMenu: IItemMenu[] = useMemo(
@@ -47,7 +47,7 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
       //   action: () => kickUser(code as string, user.user_id),
       // },
     ],
-    [],
+    [code, user.user_id],
   )
 
   return (

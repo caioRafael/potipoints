@@ -1,5 +1,5 @@
 import { onValue, ref } from 'firebase/database'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { database } from '../service/firebase'
 
@@ -8,11 +8,11 @@ export function useAdmin(code: string) {
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [admins, setAdmins] = useState<string[]>([])
 
-  const roomRef = ref(database, `/rooms/${code}/admins`)
+  const roomRef = useMemo(() => ref(database, `/rooms/${code}/admins`), [code])
 
   useEffect(() => {
-    onValue(roomRef, async (snapchot) => {
-      const data = await snapchot.val()
+    onValue(roomRef, async (snapshot) => {
+      const data = await snapshot.val()
 
       const list = Object.entries(data).map(([_, value]) => value as string)
 
@@ -21,6 +21,6 @@ export function useAdmin(code: string) {
       const verifyUserIsAdmin = list.some((id) => id === user?.id)
       setIsAdmin(verifyUserIsAdmin)
     })
-  }, [code])
+  }, [user?.id, roomRef])
   return { admins, isAdmin }
 }

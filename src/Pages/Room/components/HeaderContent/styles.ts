@@ -8,12 +8,13 @@ export const Container = styled.div`
   width: 100%;
   padding: 0px 24px 16px;
   flex-wrap: wrap;
+  gap: 8px;
 
   section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
   }
 `
 

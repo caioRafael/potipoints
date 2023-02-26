@@ -1,5 +1,5 @@
 import { onValue, ref } from 'firebase/database'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { IRoom, IRoomUser } from '../context/AuthContext'
 import { database } from '../service/firebase'
 
@@ -9,7 +9,7 @@ export function useRoom(codeRoom: string) {
   const [room, setRoom] = useState<IRoom>()
   const [votes, setVotes] = useState<string[]>([])
 
-  const roomRef = ref(database, `/rooms/${codeRoom}`)
+  const roomRef = useMemo(() => ref(database, `/rooms/${codeRoom}`), [codeRoom])
 
   // comentar enquanto não tem uma solução melhor para o bug do login
   // useEffect(() => {
@@ -17,15 +17,19 @@ export function useRoom(codeRoom: string) {
   //   if (!checkUserInRoom && users.length > 0) {
   //     signOut('/')
   //   }
-  // }, [users, signOut, user?.id])
+  // }, [users, user, signOut])
 
   useEffect(() => {
     onValue(roomRef, async (snapshot) => {
       const data = await snapshot.val()
 
+      // eslint-disable-next-line prettier/prettier
+      const serverUsersFiltered = Object.entries(data.users).map(([_, user]) => user) as unknown as IRoomUser[]
+      const usersInRoom = serverUsersFiltered
+
       const room: IRoom = {
         ...data,
-        users: Object.entries(data.users).map(([_, user]) => user),
+        users: usersInRoom,
       }
 
       setRoom(room)
@@ -46,7 +50,7 @@ export function useRoom(codeRoom: string) {
         }) as IRoomUser[],
       )
     })
-  }, [codeRoom])
+  }, [roomRef])
 
   useEffect(() => {
     if (room?.result_reveled) {

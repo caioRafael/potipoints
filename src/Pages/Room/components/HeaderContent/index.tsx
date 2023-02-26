@@ -1,5 +1,9 @@
-import { FC, useMemo, useCallback } from 'react'
-import { ChangeButton, PrimaryButton, Tooltip } from '../../../../components'
+import { FC, useCallback, useMemo } from 'react'
+import {
+  ChangeButton,
+  PrimaryButton,
+  TooltipHost,
+} from '../../../../components'
 import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
 import { Container, RoomCode } from './styles'
@@ -30,8 +34,8 @@ const HeaderContent: FC = () => {
     [code, room],
   )
 
-  const verifySituationVotes = useMemo(() => {
-    // utilizando o metodo some para verificar se tem algum voto em branco
+  const hasBlankVotes = useMemo(() => {
+    // utilizando o método some para verificar se tem algum voto em branco
     return users
       .filter((user) => user.status === true)
       .some((user) => user.vote === '')
@@ -54,17 +58,17 @@ const HeaderContent: FC = () => {
   return (
     <Container>
       <section>
-        <Tooltip
-          message="Aguarde todos votarem"
-          isVisible={verifySituationVotes}
+        <TooltipHost
+          content="Aguarde até que todos votem"
+          disabled={!hasBlankVotes}
         >
           <PrimaryButton
             width={100}
             text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
             onClick={handleVisibleVote}
-            disabled={verifySituationVotes}
+            disabled={hasBlankVotes}
           />
-        </Tooltip>
+        </TooltipHost>
         <ChangeButton
           width={100}
           text="Resetar"
