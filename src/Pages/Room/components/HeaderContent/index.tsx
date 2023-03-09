@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from 'react'
+import { FC, useCallback, useContext, useMemo } from 'react'
 import {
   ChangeButton,
   PrimaryButton,
@@ -15,10 +15,13 @@ import { resetAllVotes, toggleVisibleVote } from '../../../../service/votes'
 import { ScoringListEnum } from '../../../../enums/ScoringListEnum'
 import { setScoringSystem } from '../../../../service/votes/setScoringSystem'
 import ScoringListRecord from '../../../../records/ScoringListRecord'
+import { BiTimeFive, BiCheck } from 'react-icons/bi'
+import { ThemeContext } from 'styled-components'
 
 const HeaderContent: FC = () => {
   const { code } = useParams()
   const { room, users } = useRoom(code as string)
+  const { colors } = useContext(ThemeContext)
 
   const item = useMemo(() => {
     return {
@@ -41,6 +44,11 @@ const HeaderContent: FC = () => {
       .some((user) => user.vote === '')
   }, [users])
 
+  const countVotes = useMemo(() => {
+    // utilizando o método some para verificar se tem algum voto em branco
+    return users.filter((user) => user.status === true).length
+  }, [users])
+
   function copyRoomCode() {
     navigator.clipboard.writeText(code as string)
     toast.info('Código copiado!', {
@@ -58,23 +66,31 @@ const HeaderContent: FC = () => {
   return (
     <Container>
       <section>
-        <TooltipHost
-          content="Aguarde até que todos votem"
-          disabled={!hasBlankVotes}
-        >
-          <PrimaryButton
-            width={100}
-            text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
-            onClick={handleVisibleVote}
-            disabled={hasBlankVotes}
-          />
-        </TooltipHost>
+        <PrimaryButton
+          width={100}
+          text={room?.result_reveled ? 'Ocultar' : 'Revelar'}
+          onClick={handleVisibleVote}
+        />
         <ChangeButton
           width={100}
           text="Resetar"
           onClick={() => resetAllVotes(code as string, users)}
           disabled={!room?.result_reveled}
         />
+        {hasBlankVotes ? (
+          <TooltipHost
+            content={
+              countVotes === 1
+                ? `${countVotes} pessoa ainda não votou`
+                : `${countVotes} pessoas ainda não votaram`
+            }
+            disabled={!hasBlankVotes}
+          >
+            <BiTimeFive size={20} color={colors.secondary} />
+          </TooltipHost>
+        ) : (
+          <BiCheck size={20} color={colors.primary} />
+        )}
       </section>
 
       <RoomCode onClick={copyRoomCode}>
