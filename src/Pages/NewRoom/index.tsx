@@ -19,8 +19,12 @@ function NewRoom() {
 
   const [code, setCode] = useState<string>('')
 
-  const enterRoom = async () => {
+  const enterRoomWithGoogle = async () => {
     await signInWithGoogle(code)
+  }
+
+  const enterRoomWithGithub = async () => {
+    await signInWithGithub(code)
   }
 
   const createNewRoomWithGoogle = async () => {
@@ -38,14 +42,17 @@ function NewRoom() {
   return (
     <Container>
       <Logo src={FullLogo} alt="full-logo" />
-      <GoogleButton onClick={createNewRoomWithGoogle}>
-        <FcGoogle size={25} />
-        Crie uma sala com sua conta Google
-      </GoogleButton>
-      <GoogleButton onClick={createNewRoomWithGithub}>
-        <BsGithub size={25} />
-        Crie uma sala com sua conta do Github
-      </GoogleButton>
+
+      <Division>Crie uma sala com sua conta Google ou Github</Division>
+
+      <div className="containerButtons">
+        <GoogleButton onClick={createNewRoomWithGoogle}>
+          <FcGoogle size={25} />
+        </GoogleButton>
+        <GoogleButton onClick={createNewRoomWithGithub}>
+          <BsGithub size={25} />
+        </GoogleButton>
+      </div>
 
       <Division>Ou entre em uma sala com sua conta Google ou Github</Division>
 
@@ -54,9 +61,17 @@ function NewRoom() {
         onChange={(e) => setCode(e.target.value)}
       />
       <PrimaryButton
-        text="Entrar na sala"
+        icon={<FcGoogle size={25} />}
+        text="Entrar na sala com Google"
         type="submit"
-        onClick={enterRoom}
+        onClick={enterRoomWithGoogle}
+        disabled={!code}
+      />
+      <PrimaryButton
+        icon={<BsGithub size={25} />}
+        text="Entrar na sala com Github"
+        type="submit"
+        onClick={enterRoomWithGithub}
         disabled={!code}
       />
     </Container>

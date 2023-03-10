@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { ScoringListEnum } from '../enums/ScoringListEnum'
 
 export interface IRoomUser {
-  // key?: string;
   user_id: string
   vote?: string
   avatar_url: string
