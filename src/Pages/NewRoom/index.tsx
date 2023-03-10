@@ -6,6 +6,7 @@ import {
   Logo,
 } from './styles'
 import { FcGoogle } from 'react-icons/fc'
+import { BsGithub } from 'react-icons/bs'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from '../../components'
@@ -13,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth'
 import FullLogo from '../../assets/full-logo.svg'
 
 function NewRoom() {
-  const { signInWithGoogle, code: roomCode } = useAuth()
+  const { signInWithGoogle, signInWithGithub, code: roomCode } = useAuth()
   const navigate = useNavigate()
 
   const [code, setCode] = useState<string>('')
@@ -22,8 +23,12 @@ function NewRoom() {
     await signInWithGoogle(code)
   }
 
-  const createNewRoom = async () => {
+  const createNewRoomWithGoogle = async () => {
     await signInWithGoogle()
+  }
+
+  const createNewRoomWithGithub = async () => {
+    await signInWithGithub()
   }
 
   useEffect(() => {
@@ -33,12 +38,16 @@ function NewRoom() {
   return (
     <Container>
       <Logo src={FullLogo} alt="full-logo" />
-      <GoogleButton onClick={createNewRoom}>
+      <GoogleButton onClick={createNewRoomWithGoogle}>
         <FcGoogle size={25} />
         Crie uma sala com sua conta Google
       </GoogleButton>
+      <GoogleButton onClick={createNewRoomWithGithub}>
+        <BsGithub size={25} />
+        Crie uma sala com sua conta do Github
+      </GoogleButton>
 
-      <Division>Ou entre em uma sala com sua conta Google</Division>
+      <Division>Ou entre em uma sala com sua conta Google ou Github</Division>
 
       <InputRoomCode
         placeholder="Código da sala"

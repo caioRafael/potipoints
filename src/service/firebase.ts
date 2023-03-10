@@ -1,6 +1,6 @@
 import { FirebaseOptions, initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { GoogleAuthProvider, getAuth } from 'firebase/auth'
+import { GoogleAuthProvider, GithubAuthProvider, getAuth } from 'firebase/auth'
 import { getDatabase } from '@firebase/database'
 
 const firebaseConfig: FirebaseOptions = {
@@ -20,5 +20,6 @@ const database = getDatabase(app)
 
 const auth = getAuth()
 const provider = new GoogleAuthProvider()
+const githubProvider = new GithubAuthProvider()
 
-export { app, analytics, auth, provider, database }
+export { app, analytics, auth, provider, database, githubProvider }
