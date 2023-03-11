@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { auth, database, provider, githubProvider } from '../service/firebase'
-import { signInWithPopup } from 'firebase/auth'
+import { auth, database } from '../service/firebase'
+import { UserCredential } from 'firebase/auth'
 import { ref, set, onValue, DataSnapshot, remove } from 'firebase/database'
 import { useNavigate } from 'react-router-dom'
 import { ScoringListEnum } from '../enums/ScoringListEnum'
+import signInMetod from '../service/signIn/signInMethod'
 
 export interface IRoomUser {
   user_id: string
@@ -33,12 +34,11 @@ export type User = {
 
 type AuthContextType = {
   user: User | null
-  signInWithGoogle: (code?: string) => Promise<string>
-  signInWithGithub: (code?: string) => Promise<string>
+  signIn: (typeSignIn: number, code?: string) => Promise<string | undefined>
   code: string
   signOut: (navigateTo?: string) => Promise<void>
   room: IRoom | null
-  // created_by_user: User;
+  error: string | null
 }
 
 type AuthContextProviderProps = {
@@ -52,6 +52,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const [code, setCode] = useState<string>('')
   const [room, setRoom] = useState<IRoom | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const userLogged = localStorage.getItem('@points:user')
@@ -131,79 +132,46 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     await set(addUserInRoomRef, roomUser)
   }
 
-  async function signInWithGithub(code?: string) {
-    let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
+  async function signIn(typeSignIn: number, code?: string) {
+    try {
+      let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
 
-    console.log('github')
-    const result = await signInWithPopup(auth, githubProvider)
-    let newUser: User
+      const result = (await signInMetod(typeSignIn)) as UserCredential
+      let newUser: User
 
-    if (result.user) {
-      const { displayName, photoURL, uid, email } = result.user
+      if (result && result.user) {
+        const { displayName, photoURL, uid, email } = result.user
 
-      if (!displayName || !photoURL) {
-        throw new Error('Missing information from Google Account.')
+        if (!displayName || !photoURL) {
+          throw new Error('Missing information from Google Account.')
+        }
+        const data = {
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+          email: email || '',
+        }
+
+        newUser = data
+        setUser(data)
+
+        localStorage.setItem('@points:user', JSON.stringify(data))
+        if (code) {
+          await enterRoom(code, newUser)
+        } else {
+          newCode = (await createNewRoom(newCode, newUser as User)).toString()
+        }
       }
-      const data = {
-        id: uid,
-        name: displayName,
-        avatar: photoURL,
-        email: email || '',
-      }
 
-      newUser = data
-      setUser(data)
+      localStorage.setItem('@points:code', newCode)
 
-      localStorage.setItem('@points:user', JSON.stringify(data))
-      if (code) {
-        await enterRoom(code, newUser)
-      } else {
-        newCode = (await createNewRoom(newCode, newUser as User)).toString()
-      }
+      setCode(newCode)
+
+      return newCode
+    } catch (error) {
+      console.log(error)
+      setError(String(error))
     }
-
-    localStorage.setItem('@points:code', newCode)
-
-    setCode(newCode)
-
-    return newCode
-  }
-
-  async function signInWithGoogle(code?: string) {
-    let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
-
-    const result = await signInWithPopup(auth, provider)
-    let newUser: User
-
-    if (result.user) {
-      const { displayName, photoURL, uid, email } = result.user
-
-      if (!displayName || !photoURL) {
-        throw new Error('Missing information from Google Account.')
-      }
-      const data = {
-        id: uid,
-        name: displayName,
-        avatar: photoURL,
-        email: email || '',
-      }
-
-      newUser = data
-      setUser(data)
-
-      localStorage.setItem('@points:user', JSON.stringify(data))
-      if (code) {
-        await enterRoom(code, newUser)
-      } else {
-        newCode = (await createNewRoom(newCode, newUser as User)).toString()
-      }
-    }
-
-    localStorage.setItem('@points:code', newCode)
-
-    setCode(newCode)
-
-    return newCode
   }
 
   useEffect(() => {
@@ -233,11 +201,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     <AuthContext.Provider
       value={{
         user,
-        signInWithGoogle,
-        signInWithGithub,
+        signIn,
         code,
         signOut,
         room,
+        error,
       }}
     >
       {props.children}

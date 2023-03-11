@@ -12,27 +12,41 @@ import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from '../../components'
 import { useAuth } from '../../hooks/useAuth'
 import FullLogo from '../../assets/full-logo.svg'
+import { SiginMethodEnum } from '../../enums/SiginMethodEnum'
+import { Flip, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewRoom() {
-  const { signInWithGoogle, signInWithGithub, code: roomCode } = useAuth()
+  const { signIn, code: roomCode, error } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'colored',
+        transition: Flip,
+        autoClose: 5000,
+      })
+    }
+  }, [error])
 
   const [code, setCode] = useState<string>('')
 
   const enterRoomWithGoogle = async () => {
-    await signInWithGoogle(code)
+    await signIn(SiginMethodEnum.Google, code)
   }
 
   const enterRoomWithGithub = async () => {
-    await signInWithGithub(code)
+    await signIn(SiginMethodEnum.Github, code)
   }
 
   const createNewRoomWithGoogle = async () => {
-    await signInWithGoogle()
+    await signIn(SiginMethodEnum.Google)
   }
 
   const createNewRoomWithGithub = async () => {
-    await signInWithGithub()
+    await signIn(SiginMethodEnum.Github)
   }
 
   useEffect(() => {
