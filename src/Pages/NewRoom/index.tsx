@@ -80,9 +80,7 @@ function NewRoom() {
         </GoogleButton>
       </div>
 
-      <Division>
-        Ou entre em uma sala com sua conta existente.
-      </Division>
+      <Division>Ou entre em uma sala com sua conta existente.</Division>
 
       <InputRoomCode
         placeholder="Código da sala"
