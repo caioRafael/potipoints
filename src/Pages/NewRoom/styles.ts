@@ -10,6 +10,12 @@ export const Container = styled.div`
   height: 100vh;
 
   gap: 20px;
+
+  .containerButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
 `
 
 export const GoogleButton = styled.button`
@@ -19,10 +25,8 @@ export const GoogleButton = styled.button`
   gap: 5px;
   padding: 0 15px;
 
-  width: 350px;
   height: 50px;
 
-  border: solid 1px ${(props) => props.theme.colors.border};
   border-radius: 5px;
   background: transparent;
 

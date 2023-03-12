@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { auth, database, provider } from '../service/firebase'
-import { signInWithPopup } from 'firebase/auth'
+import { auth, database } from '../service/firebase'
+import { UserCredential } from 'firebase/auth'
 import { ref, set, onValue, DataSnapshot, remove } from 'firebase/database'
 import { useNavigate } from 'react-router-dom'
 import { ScoringListEnum } from '../enums/ScoringListEnum'
+import signInMetod from '../service/signIn/signInMethod'
 
 export interface IRoomUser {
-  // key?: string;
   user_id: string
   vote?: string
   avatar_url: string
@@ -34,11 +34,11 @@ export type User = {
 
 type AuthContextType = {
   user: User | null
-  signInWithGoogle: (code?: string) => Promise<string>
+  signIn: (typeSignIn: number, code?: string) => Promise<string | undefined>
   code: string
   signOut: (navigateTo?: string) => Promise<void>
   room: IRoom | null
-  // created_by_user: User;
+  error: string | null
 }
 
 type AuthContextProviderProps = {
@@ -52,6 +52,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const [code, setCode] = useState<string>('')
   const [room, setRoom] = useState<IRoom | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const userLogged = localStorage.getItem('@points:user')
@@ -63,12 +64,36 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
   }, [])
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, photoURL, uid, email } = user
+
+        if (!displayName) {
+          throw new Error('Missing information from Google Account.')
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL || '',
+          email: email || '',
+        })
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
   async function removeUserFromRoom(roomCode: string, userId: string) {
     await remove(ref(database, `/rooms/${roomCode}/users/${userId}`))
   }
 
   async function signOut(navigateTo?: string) {
     await removeUserFromRoom(code, user?.id as string)
+    auth.signOut()
     setUser(null)
     setCode('')
     localStorage.clear()
@@ -93,13 +118,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       code: roomCode,
       result_reveled: false,
       voting_system: ScoringListEnum.Fibonacci,
-      // created_by_user: initialRoomUser,
     }
 
     setRoom(initialRoom)
     const roomRef = ref(database, `/rooms/${initialRoom.code}`)
     await set(roomRef, initialRoom)
-    // alteração feita para que o id ddo usuário seja a key no banco
     const enterRoomRef = ref(
       database,
       `/rooms/${initialRoom.code}/users/${user.id}`,
@@ -133,74 +156,57 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     await set(addUserInRoomRef, roomUser)
   }
 
-  async function signInWithGoogle(code?: string) {
-    let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
+  async function signIn(typeSignIn: number, code?: string) {
+    try {
+      let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
 
-    const result = await signInWithPopup(auth, provider)
-    let newUser: User
+      const result = (await signInMetod(typeSignIn)) as UserCredential
+      let newUser: User
 
-    if (result.user) {
-      const { displayName, photoURL, uid, email } = result.user
+      if (result && result.user) {
+        const { displayName, photoURL, uid, email } = result.user
 
-      if (!displayName || !photoURL) {
-        throw new Error('Missing information from Google Account.')
-      }
-      const data = {
-        id: uid,
-        name: displayName,
-        avatar: photoURL,
-        email: email || '',
-      }
-
-      newUser = data
-      setUser(data)
-
-      localStorage.setItem('@points:user', JSON.stringify(data))
-      if (code) {
-        await enterRoom(code, newUser)
-      } else {
-        newCode = (await createNewRoom(newCode, newUser as User)).toString()
-      }
-    }
-
-    localStorage.setItem('@points:code', newCode)
-
-    setCode(newCode)
-
-    return newCode
-  }
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { displayName, photoURL, uid, email } = user
-
-        if (!displayName || !photoURL) {
+        if (!displayName) {
           throw new Error('Missing information from Google Account.')
         }
-
-        setUser({
+        const data = {
           id: uid,
           name: displayName,
-          avatar: photoURL,
+          avatar: photoURL || '',
           email: email || '',
-        })
-      }
-    })
+        }
 
-    return () => {
-      unsubscribe()
+        newUser = data
+        setUser(data)
+
+        localStorage.setItem('@points:user', JSON.stringify(data))
+        if (code) {
+          await enterRoom(code, newUser)
+        } else {
+          newCode = (await createNewRoom(newCode, newUser as User)).toString()
+        }
+      }
+
+      localStorage.setItem('@points:code', newCode)
+
+      setCode(newCode)
+
+      return newCode
+    } catch (error) {
+      console.log(error)
+      setError(String(error))
     }
-  }, [])
+  }
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        signInWithGoogle,
+        signIn,
         code,
         signOut,
         room,
+        error,
       }}
     >
       {props.children}
