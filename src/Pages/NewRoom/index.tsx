@@ -81,7 +81,7 @@ function NewRoom() {
       </div>
 
       <Division>
-        Ou entre em uma sala com sua conta Google ou Github ou Microsot
+        Ou entre em uma sala com sua conta existente.
       </Division>
 
       <InputRoomCode
