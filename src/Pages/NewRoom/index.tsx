@@ -65,7 +65,7 @@ function NewRoom() {
       <Logo src={FullLogo} alt="full-logo" />
 
       <Division>
-        Crie uma sala com sua conta Google ou Github ou Microsot
+        Crie uma sala com sua conta Google, Github ou Microsoft
       </Division>
 
       <div className="containerButtons">
