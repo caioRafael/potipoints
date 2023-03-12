@@ -27,7 +27,6 @@ export const GoogleButton = styled.button`
 
   height: 50px;
 
-  border: solid 1px ${(props) => props.theme.colors.border};
   border-radius: 5px;
   background: transparent;
 

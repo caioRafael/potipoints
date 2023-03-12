@@ -6,7 +6,7 @@ import {
   Logo,
 } from './styles'
 import { FcGoogle } from 'react-icons/fc'
-import { BsGithub } from 'react-icons/bs'
+import { BsGithub, BsMicrosoft } from 'react-icons/bs'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from '../../components'
@@ -49,6 +49,9 @@ function NewRoom() {
     await signIn(SiginMethodEnum.Github)
   }
 
+  const createNewRoomWithMicrosoft = async () => {
+    await signIn(SiginMethodEnum.Microsoft)
+  }
   useEffect(() => {
     if (roomCode) navigate(`/room/${roomCode}`)
   }, [roomCode, navigate])
@@ -65,6 +68,9 @@ function NewRoom() {
         </GoogleButton>
         <GoogleButton onClick={createNewRoomWithGithub}>
           <BsGithub size={25} />
+        </GoogleButton>
+        <GoogleButton onClick={createNewRoomWithMicrosoft}>
+          <BsMicrosoft size={25} />
         </GoogleButton>
       </div>
 
