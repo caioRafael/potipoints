@@ -41,6 +41,10 @@ function NewRoom() {
     await signIn(SiginMethodEnum.Github, code)
   }
 
+  const enterRoomWithMicrosoft = async () => {
+    await signIn(SiginMethodEnum.Microsoft, code)
+  }
+
   const createNewRoomWithGoogle = async () => {
     await signIn(SiginMethodEnum.Google)
   }
@@ -60,7 +64,9 @@ function NewRoom() {
     <Container>
       <Logo src={FullLogo} alt="full-logo" />
 
-      <Division>Crie uma sala com sua conta Google ou Github</Division>
+      <Division>
+        Crie uma sala com sua conta Google ou Github ou Microsot
+      </Division>
 
       <div className="containerButtons">
         <GoogleButton onClick={createNewRoomWithGoogle}>
@@ -74,7 +80,9 @@ function NewRoom() {
         </GoogleButton>
       </div>
 
-      <Division>Ou entre em uma sala com sua conta Google ou Github</Division>
+      <Division>
+        Ou entre em uma sala com sua conta Google ou Github ou Microsot
+      </Division>
 
       <InputRoomCode
         placeholder="Código da sala"
@@ -92,6 +100,13 @@ function NewRoom() {
         text="Entrar na sala com Github"
         type="submit"
         onClick={enterRoomWithGithub}
+        disabled={!code}
+      />
+      <PrimaryButton
+        icon={<BsMicrosoft size={25} />}
+        text="Entrar na sala com Microsoft"
+        type="submit"
+        onClick={enterRoomWithMicrosoft}
         disabled={!code}
       />
     </Container>

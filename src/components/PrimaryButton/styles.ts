@@ -8,6 +8,7 @@ export const Button = styled.button`
   padding: 0 15px;
   width: ${(props) => props.style?.width || '350px'};
   height: 50px;
+  gap: 5px;
 
   border-radius: 5px;
 

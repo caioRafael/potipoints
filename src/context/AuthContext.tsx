@@ -64,12 +64,36 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
   }, [])
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, photoURL, uid, email } = user
+
+        if (!displayName) {
+          throw new Error('Missing information from Google Account.')
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL || '',
+          email: email || '',
+        })
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
   async function removeUserFromRoom(roomCode: string, userId: string) {
     await remove(ref(database, `/rooms/${roomCode}/users/${userId}`))
   }
 
   async function signOut(navigateTo?: string) {
     await removeUserFromRoom(code, user?.id as string)
+    auth.signOut()
     setUser(null)
     setCode('')
     localStorage.clear()
@@ -173,29 +197,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       setError(String(error))
     }
   }
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { displayName, photoURL, uid, email } = user
-
-        if (!displayName) {
-          throw new Error('Missing information from Google Account.')
-        }
-
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL || '',
-          email: email || '',
-        })
-      }
-    })
-
-    return () => {
-      unsubscribe()
-    }
-  }, [])
 
   return (
     <AuthContext.Provider
