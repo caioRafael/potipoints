@@ -1,5 +1,5 @@
 import { FirebaseOptions, initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
+// import { getAnalytics } from 'firebase/analytics'
 import {
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -20,7 +20,7 @@ const firebaseConfig: FirebaseOptions = {
 }
 
 const app = initializeApp(firebaseConfig)
-const analytics = getAnalytics(app)
+// const analytics = getAnalytics(app)
 const database = getDatabase(app)
 
 const auth = getAuth()
@@ -30,7 +30,7 @@ const microsoftProvider = new OAuthProvider('microsoft.com')
 
 export {
   app,
-  analytics,
+  // analytics,
   auth,
   provider,
   database,
