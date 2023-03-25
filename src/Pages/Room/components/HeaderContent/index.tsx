@@ -46,7 +46,7 @@ const HeaderContent: FC = () => {
 
   const countVotes = useMemo(() => {
     // utilizando o método some para verificar se tem algum voto em branco
-    return users.filter((user) => user.status === true).length
+    return users.filter((user) => user.vote === '').length
   }, [users])
 
   function copyRoomCode() {
