@@ -1,15 +1,15 @@
-import { SiginMethodEnum } from '../../enums/SiginMethodEnum'
+import { SigInMethodEnum } from '../../enums/SigInEnum'
 import signInWithGithub from './signInWithGithub'
 import signInWithGoogle from './signInWithGoogle'
 import signInWithMicrosoft from './signInWithMicrosoft'
 
 const signInMetod = async (typeSignIn: number) => {
   switch (typeSignIn) {
-    case SiginMethodEnum.Google:
+    case SigInMethodEnum.Google:
       return await signInWithGoogle()
-    case SiginMethodEnum.Github:
+    case SigInMethodEnum.Github:
       return await signInWithGithub()
-    case SiginMethodEnum.Microsoft:
+    case SigInMethodEnum.Microsoft:
       return await signInWithMicrosoft()
 
     default:

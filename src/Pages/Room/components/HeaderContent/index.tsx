@@ -4,7 +4,7 @@ import {
   PrimaryButton,
   TooltipHost,
 } from '../../../../components'
-import Dropdown, { DropdownItem } from '../../../../components/Dropdown'
+import Dropdown, { IDropdownItem } from '../../../../components/Dropdown'
 import { useRoom } from '../../../../hooks/useRoom'
 import { Container, RoomCode } from './styles'
 import { useParams } from 'react-router-dom'
@@ -27,12 +27,12 @@ const HeaderContent: FC = () => {
     return {
       name: ScoringListRecord[room?.voting_system as number],
       value: room?.voting_system as number,
-    } as DropdownItem
+    } as IDropdownItem
   }, [room])
 
   const setItem = useCallback(
-    async (item: DropdownItem) => {
-      await setScoringSystem(code as string, item.value)
+    async (item: IDropdownItem) => {
+      await setScoringSystem(code as string, item.value as number)
     },
     [code],
   )
@@ -98,14 +98,14 @@ const HeaderContent: FC = () => {
         {code}
       </RoomCode>
 
-      <Dropdown list={ListItems} item={item} setItem={setItem} />
+      <Dropdown list={ListItems} config={item} onItemClick={setItem} />
     </Container>
   )
 }
 
 export default HeaderContent
 
-const ListItems: DropdownItem[] = [
+const ListItems: IDropdownItem[] = [
   {
     name: ScoringListRecord[ScoringListEnum.Fibonacci as number],
     value: ScoringListEnum.Fibonacci,
