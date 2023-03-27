@@ -58,7 +58,7 @@ const Average: FC<AverageProps> = ({ reveled }) => {
       {CongratsAnimate}
       {betterAcceptance !== '' && (
         <AverageContainer reveled={reveled}>
-          <h2>Melhor escolha:</h2>
+          <h2>Escolha sugerida:</h2>
           <Card aria-readonly={room?.result_reveled}>
             <h1>{betterAcceptance}</h1>
           </Card>

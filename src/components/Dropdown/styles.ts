@@ -1,68 +1,63 @@
 import { darken, lighten } from 'polished'
 import styled from 'styled-components'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
-export const Container = styled.div`
-  width: ${(props) => props.style?.width || '200px'};
-  height: 50px;
-`
+export const DropdownButton = styled(DropdownMenu.Trigger)`
+  width: 150px;
+  padding: 12px 16px;
 
-export const ButtonDropdown = styled.button`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
 
-  background: transparent;
+  border-radius: ${(props) => props.theme.radius.sm};
   border: solid 1px ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.radius.md};
-
   color: ${(props) => props.theme.colors.color};
+  background-color: transparent;
 
-  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.sm};
+
+  span {
+    font-size: 16px;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &[data-state='open'] svg {
+    transform: rotate(-180deg);
+  }
 
   :hover {
     background: ${(props) => darken(0.05, props.theme.colors.background)};
   }
 `
 
-export const ContentOptions = styled.div`
+export const DropdownContent = styled(DropdownMenu.Content)`
   display: flex;
   flex-direction: column !important;
-  width: 100%;
-  max-height: 300px;
+  width: var(--radix-dropdown-menu-trigger-width);
 
   background: ${(props) => props.theme.colors.background};
+  border: 1px solid ${(props) => props.theme.colors.border};
+  border-radius: ${(props) => props.theme.radius.md};
   overflow: auto;
 `
 
-export const DropDownList = styled.ul`
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-  margin-top: 2px;
-  background: ${(props) => props.theme.colors.background};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.radius.lg};
-  box-sizing: border-box;
-  color: ${(props) => props.theme.colors.primary};
-  font-size: 1.3rem;
-  font-weight: 500;
-  overflow: hidden;
-`
+export const DropdownItem = styled(DropdownMenu.Item)`
+  z-index: 2;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
 
-interface ListItemProps {
-  disabled?: boolean
-}
-
-export const ListItem = styled.li<ListItemProps>`
-  box-sizing: border-box;
-  cursor: pointer;
-  list-style: none;
-  padding: 16px;
-  display: flex;
-  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid ${(props) => props.theme.colors.border};
+  }
 
   color: ${(props) =>
     props.disabled ? props.theme.colors.disabled : props.theme.colors.primary};

@@ -1,67 +1,57 @@
-import { FC, useCallback, useState } from 'react'
-import {
-  ButtonDropdown,
-  Container,
-  ContentOptions,
-  DropDownList,
-  ListItem,
-} from './styles'
-import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai'
+import { FC, useCallback } from 'react'
+import { DropdownButton, DropdownContent, DropdownItem } from './styles'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { CaretDown } from 'phosphor-react'
 
-export interface DropdownItem {
+export interface IDropdownItem {
   name: string
   value: number
   disabled?: boolean
 }
 
 interface DropdownProps {
-  list: DropdownItem[]
-  item: DropdownItem
-  setItem: (item: DropdownItem) => void
+  list: IDropdownItem[]
+  config: IDropdownItem
+  onItemClick: (item: IDropdownItem) => void
 }
 
 const Dropdown: FC<DropdownProps> = (props) => {
-  const { list, item, setItem } = props
-  const [viewOptions, setViewOptions] = useState<boolean>(false)
-
-  const openDropdown = useCallback(() => {
-    setViewOptions(!viewOptions)
-  }, [viewOptions])
+  const { list, config, onItemClick } = props
 
   const selectItem = useCallback(
-    (item: DropdownItem) => {
-      setItem(item)
-      setViewOptions(false)
+    (item: IDropdownItem) => {
+      onItemClick(item)
     },
-    [setItem],
+    [onItemClick],
   )
 
   return (
-    <Container>
-      <ButtonDropdown onClick={openDropdown}>
-        {viewOptions ? (
-          <AiOutlineUp size={15} style={{ marginRight: 10 }} />
-        ) : (
-          <AiOutlineDown size={15} style={{ marginRight: 10 }} />
-        )}
-        {item.name}
-      </ButtonDropdown>
-      {viewOptions && (
-        <ContentOptions>
-          <DropDownList>
-            {list.map((item) => (
-              <ListItem
-                key={item.value}
-                disabled={item.disabled}
-                onClick={item.disabled ? undefined : () => selectItem(item)}
-              >
-                {item.name}
-              </ListItem>
-            ))}
-          </DropDownList>
-        </ContentOptions>
-      )}
-    </Container>
+    <DropdownMenu.Root>
+      <DropdownButton
+        asChild
+        aria-label={config.name}
+        disabled={config.disabled}
+      >
+        <button>
+          <CaretDown size={16} weight="bold" />
+          <span>{config.name}</span>
+        </button>
+      </DropdownButton>
+
+      <DropdownMenu.Portal>
+        <DropdownContent align="start" sideOffset={2}>
+          {list.map((item) => (
+            <DropdownItem
+              key={item.value}
+              disabled={item.disabled}
+              onClick={item.disabled ? undefined : () => selectItem(item)}
+            >
+              {item.name}
+            </DropdownItem>
+          ))}
+        </DropdownContent>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   )
 }
 

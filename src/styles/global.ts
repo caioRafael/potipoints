@@ -6,6 +6,7 @@ export const Global = createGlobalStyle`
     margin: 0;
     box-sizing: border-box;
     font-smooth: antialiased;
+    line-height: 160%;
   }
   
   @media (max-width: 1080px) {

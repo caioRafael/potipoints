@@ -1,26 +1,30 @@
-import { SignOut } from 'phosphor-react'
-import { FC, useCallback, useContext } from 'react'
-import { ThemeContext } from 'styled-components'
+import { CaretDown } from 'phosphor-react'
+import { FC, useCallback, useState } from 'react'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {
   HeaderContainer,
   HeaderStyles,
-  IconButton,
   LogoHeader,
-  UserContent,
+  UserDropdown,
+  UserDropdownContent,
+  UserDropdownItem,
 } from './styles'
-import Logo from '../../assets/logo.svg'
+import Logo from '../../assets/logo-new.svg'
 import { useAuth } from '../../hooks/useAuth'
-import { Avatar } from '..'
+import { AlertDialog, Avatar } from '..'
+import { useTheme } from 'styled-components'
 
 const Header: FC = () => {
-  const { colors } = useContext(ThemeContext)
-
   const { user, signOut } = useAuth()
+  const theme = useTheme()
+
+  const [open, setOpen] = useState<boolean>(false)
+  const handleOpen = () => setOpen(true)
+
+  const userNameShort = user?.name.split(' ')[0]
 
   const handleSignOut = useCallback(async () => {
-    if (window.confirm('Você será deslogado do sistema!')) {
-      signOut('/')
-    }
+    signOut('/')
   }, [signOut])
 
   return (
@@ -28,15 +32,36 @@ const Header: FC = () => {
       <HeaderContainer>
         <LogoHeader src={Logo} />
         {user && (
-          <UserContent>
-            <Avatar src={user.avatar} name={user.name} />
-            <p>{user.name}</p>
-            <IconButton onClick={handleSignOut}>
-              <SignOut size={24} color={colors.primary} />
-            </IconButton>
-          </UserContent>
+          <DropdownMenu.Root>
+            <UserDropdown aria-label={userNameShort}>
+              <Avatar src={user.avatar} name={user.name} />
+              <span>{userNameShort}</span>
+              <CaretDown size={16} weight="bold" />
+            </UserDropdown>
+
+            <DropdownMenu.Portal>
+              <UserDropdownContent align="start" sideOffset={0}>
+                <UserDropdownItem
+                  onClick={handleOpen}
+                  color={theme.colors.danger}
+                >
+                  Sair
+                </UserDropdownItem>
+              </UserDropdownContent>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
         )}
       </HeaderContainer>
+      <AlertDialog
+        open={open}
+        type="warning"
+        onOpenChange={setOpen}
+        title="Finalizar sessão"
+        description="Deseja finalizar a sessão?"
+        confirmMessage="Sair"
+        cancelMessage="Cancelar"
+        onConfirm={handleSignOut}
+      />
     </HeaderStyles>
   )
 }

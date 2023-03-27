@@ -10,10 +10,17 @@ import Avatar from './Avatar'
 import Tooltip from './Tooltip/index'
 import RightClickMenu from './RightClickMenu/index'
 import TooltipHost from './TooltipHost'
+import AlertDialog from './AlertDialog'
+import DefaultButton from './DefaultButton'
+import IconButton from './IconButton'
+import Popover from './Popover'
 
 export {
+  AlertDialog,
   Image,
   PrimaryButton,
+  DefaultButton,
+  IconButton,
   ChangeButton,
   Dropdown,
   Card,
@@ -24,4 +31,5 @@ export {
   Tooltip,
   TooltipHost,
   RightClickMenu,
+  Popover,
 }
