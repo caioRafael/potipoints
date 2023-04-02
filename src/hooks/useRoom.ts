@@ -33,7 +33,7 @@ export function useRoom(codeRoom: string) {
       }
 
       setRoom(room)
-      const userList = Object.entries(room.users).map(([key, value]) => {
+      const userList = Object.entries(room.users).map(([_, value]) => {
         return {
           user_id: value.user_id,
           vote: value.vote,

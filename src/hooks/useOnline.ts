@@ -1,13 +1,14 @@
 import { onDisconnect, onValue, ref, set } from 'firebase/database'
 import { database } from '../service/firebase'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 export function useOnline(code: string, id: string) {
-  const statusUserConnectionRef = ref(
-    database,
-    `/rooms/${code}/users/${id}/status`,
-  )
-  const connectionDatabaseRef = ref(database, '.info/connected')
+  const statusUserConnectionRef = useMemo(() => {
+    return ref(database, `/rooms/${code}/users/${id}/status`)
+  }, [code, id])
+  const connectionDatabaseRef = useMemo(() => {
+    return ref(database, '.info/connected')
+  }, [])
 
   useEffect(() => {
     onValue(connectionDatabaseRef, async (snapshot) => {
@@ -17,5 +18,5 @@ export function useOnline(code: string, id: string) {
         await onDisconnect(statusUserConnectionRef).set(false)
       }
     })
-  }, [code, id])
+  }, [code, id, connectionDatabaseRef, statusUserConnectionRef])
 }

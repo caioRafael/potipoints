@@ -5,6 +5,7 @@ import { ref, set, onValue, DataSnapshot, remove } from 'firebase/database'
 import { useNavigate } from 'react-router-dom'
 import { ScoringListEnum } from '../enums/ScoringListEnum'
 import signInMetod from '../service/signIn/signInMethod'
+import { verifyExistingRoom } from '../service/room'
 
 export interface IRoomUser {
   user_id: string
@@ -157,7 +158,13 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   async function signIn(typeSignIn: number, code?: string) {
+    const verify = await verifyExistingRoom(code as string)
+
     try {
+      if (!verify) {
+        throw new Error('Sala não existe')
+      }
+
       let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
 
       const result = (await signInMetod(typeSignIn)) as UserCredential
@@ -193,7 +200,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
       return newCode
     } catch (error) {
-      console.log(error)
       setError(String(error))
     }
   }
