@@ -158,11 +158,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   async function signIn(typeSignIn: number, code?: string) {
-    const verify = await verifyExistingRoom(code as string)
-
     try {
-      if (!verify) {
-        throw new Error('Sala não existe')
+      if (code) {
+        const verify = await verifyExistingRoom(code as string)
+        if (!verify) {
+          throw new Error('Sala não existe')
+        }
       }
 
       let newCode = code || Math.floor(Date.now() * Math.random()).toString(16)
