@@ -1,12 +1,12 @@
 {
   "name": "planning-points",
   "private": true,
-  "version": "0.1.22",
+  "version": "0.1.23",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext .ts,.tsx"
+    "lint": "eslint src --ext .ts,.tsx --fix"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",

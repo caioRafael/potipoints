@@ -1,3 +1,4 @@
+import { VersionFooter } from './VersionFooter'
 import Image from './Image/index'
 import PrimaryButton from './PrimaryButton/index'
 import ChangeButton from './ChangeButton/index'
@@ -32,4 +33,5 @@ export {
   TooltipHost,
   RightClickMenu,
   Popover,
+  VersionFooter,
 }
