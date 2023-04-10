@@ -10,7 +10,7 @@
     A new option for planning poker
 </h3>
 
-## 🧐 About 
+## About 
 
 <br>
 
