@@ -1,9 +1,9 @@
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase'
 
-const signInWithGoogle = async () => {
+const signInWithGoogle = () => {
   try {
-    return await signInWithPopup(auth, provider)
+    return signInWithPopup(auth, provider)
   } catch (err: any) {
     if (err.code === 'auth/account-exists-with-different-credential') {
       throw new Error(
