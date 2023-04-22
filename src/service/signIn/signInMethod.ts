@@ -3,14 +3,14 @@ import signInWithGithub from './signInWithGithub'
 import signInWithGoogle from './signInWithGoogle'
 import signInWithMicrosoft from './signInWithMicrosoft'
 
-const signInMetod = async (typeSignIn: number) => {
+const signInMetod = (typeSignIn: number) => {
   switch (typeSignIn) {
     case SigInMethodEnum.Google:
-      return await signInWithGoogle()
+      return signInWithGoogle()
     case SigInMethodEnum.Github:
-      return await signInWithGithub()
+      return signInWithGithub()
     case SigInMethodEnum.Microsoft:
-      return await signInWithMicrosoft()
+      return signInWithMicrosoft()
 
     default:
       break
