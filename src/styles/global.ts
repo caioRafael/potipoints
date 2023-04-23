@@ -7,6 +7,8 @@ export const Global = createGlobalStyle`
     box-sizing: border-box;
     font-smooth: antialiased;
     line-height: 160%;
+    transition-duration: 0.3s;
+    transition-property: color, background-color, border
   }
   
   @media (max-width: 1080px) {

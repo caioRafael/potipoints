@@ -1,6 +1,6 @@
 import { onValue, ref } from 'firebase/database'
 import { useEffect, useMemo, useState } from 'react'
-import { IRoom, IRoomUser } from '../context/AuthContext'
+import { IRoom, IRoomUser } from '../context/auth'
 import { database } from '../service/firebase'
 
 export function useRoom(codeRoom: string) {

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes as Switch, Route } from 'react-router-dom'
-import { AuthContextProvider } from './context/AuthContext'
+import { AuthContextProvider } from './context/auth'
 import { NewRoom, Room } from './Pages'
 import EnterRoom from './Pages/EnterRoom'
 import { Suspense } from 'react'

@@ -1,28 +1,28 @@
-export const defaultTheme = {
-  title: 'light',
+export const darkTheme = {
+  title: 'dark',
 
   colors: {
     primary: '#0069d9',
-    secondary: '#F25D27',
-    disabled: '#bbbbc4',
+    secondary: '#FF5722',
+    disabled: '#323238',
 
     success: '#22c55e',
-    danger: '#ef4444',
+    danger: '#F75A68',
 
-    elements: '#F5F8FA',
-    border: '#bbbbc4',
-    borderLight: '#DCE2E5',
+    elements: '#1E1E1E',
+    border: '#29292E',
+    borderLight: '#29292E',
 
-    color: '#29292e',
+    color: '#C4C4CC',
     white: '#F5F8FA',
-    background: '#F5F8FA',
+    background: '#121214',
 
     zinc: {
       700: '#3f3f46',
       800: '#27272a',
       900: '#18181b',
     },
-  },
+  } as const,
 
   fontSize: {
     xs: '12px',

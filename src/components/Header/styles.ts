@@ -5,7 +5,7 @@ import { darken, lighten } from 'polished'
 export const HeaderStyles = styled.header`
   width: 100vw;
 
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.background};
   color: ${(props) => props.theme.colors.primary};
   border-bottom: 1px solid ${(props) => props.theme.colors.borderLight};
 
@@ -100,6 +100,24 @@ export const UserDropdownContent = styled(DropdownMenu.Content)`
   border-radius: ${(props) => props.theme.radius.lg};
 
   overflow: auto;
+`
+
+export const UserSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  > label {
+    display: flex;
+    align-items: stretch;
+    justify-content: baseline;
+    color: white;
+
+    gap: 4px;
+    font-size: ${(props) => props.theme.fontSize.base};
+  }
 `
 
 export const UserDropdownItem = styled(DropdownMenu.Item)`

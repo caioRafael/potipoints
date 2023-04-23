@@ -21,8 +21,8 @@ export const Button = styled.button`
   }
 
   :disabled {
-    background-color: ${(props) => darken(0.05, props.theme.colors.white)};
+    background-color: ${(props) => darken(0.05, props.theme.colors.background)};
     color: ${(props) => props.theme.colors.disabled};
-    cursor: default;
+    cursor: not-allowed;
   }
 `

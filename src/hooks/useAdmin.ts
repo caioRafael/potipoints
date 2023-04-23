@@ -1,6 +1,6 @@
 import { onValue, ref } from 'firebase/database'
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../context/auth'
 import { database } from '../service/firebase'
 
 export function useAdmin(code: string) {
