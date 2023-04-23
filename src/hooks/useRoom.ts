@@ -54,9 +54,10 @@ export function useRoom(codeRoom: string) {
 
   useEffect(() => {
     if (room?.result_reveled) {
-      const listVotes = Object.entries(room.users).map(([key, value]) => {
-        return value.vote as string
-      })
+      const listVotes = room.users
+        .filter((user) => !!user.status)
+        .map((user) => user.vote as string)
+        .filter((vote) => vote !== undefined)
 
       setVotes(listVotes)
     }
