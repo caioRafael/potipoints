@@ -19,7 +19,7 @@ import { ArrowRight } from 'phosphor-react'
 import { SigInMethodEnum } from '../../enums/SigInEnum'
 
 function EnterRoom() {
-  const { signIn, code: roomCode, error } = useAuth()
+  const { signIn, code: roomCode, error, user } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
@@ -33,6 +33,15 @@ function EnterRoom() {
       })
     }
   }, [error])
+
+  if (user === null && searchParams.get('code')) {
+    toast.warn('Você precisa estar logado no sistema, faça seu login', {
+      position: toast.POSITION.TOP_CENTER,
+      theme: 'colored',
+      transition: Flip,
+      autoClose: 5000,
+    })
+  }
 
   const [code, setCode] = useState<string>(searchParams.get('code') || '')
 
