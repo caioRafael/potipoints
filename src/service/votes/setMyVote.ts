@@ -1,5 +1,5 @@
 import { ref, set } from 'firebase/database'
-import { User } from '../../context/AuthContext'
+import { User } from '../../context/auth'
 import { database } from '../firebase'
 
 export async function setMyVote(roomCode: string, vote: string, user: User) {
