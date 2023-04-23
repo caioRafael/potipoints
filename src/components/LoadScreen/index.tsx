@@ -1,12 +1,14 @@
 import { FC } from 'react'
 import Header from '../Header'
-import { Container, Spinner } from './styles'
+import { Container, Content, Spinner } from './styles'
 
 const LoadScreen: FC = () => {
   return (
     <Container>
       <Header />
-      <Spinner />
+      <Content>
+        <Spinner />
+      </Content>
     </Container>
   )
 }

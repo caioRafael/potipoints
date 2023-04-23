@@ -3,7 +3,7 @@ import { AuthContextProvider } from './context/AuthContext'
 import { NewRoom, Room } from './Pages'
 import EnterRoom from './Pages/EnterRoom'
 import { Suspense } from 'react'
-import LoadScreen from './components/LoadScreen'
+import { LoadScreen } from './components'
 
 function Routes() {
   return (

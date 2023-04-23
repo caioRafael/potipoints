@@ -10,12 +10,20 @@ export const Container = styled.div`
   overflow-x: hidden;
 `
 
+export const Content = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`
+
 export const Spinner = styled.div`
   border: 5px solid ${(props) => props.theme.colors.border};
   border-top: 5px solid ${(props) => props.theme.colors.primary};
   border-radius: 50%;
-  height: 100px;
-  width: 100px;
+  height: 40px;
+  width: 40px;
   animation: spin 2s linear infinite;
 
   @keyframes spin {
