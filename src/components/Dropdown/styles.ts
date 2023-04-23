@@ -65,6 +65,8 @@ export const DropdownItem = styled(DropdownMenu.Item)`
 
   :hover {
     background-color: ${(props) =>
-      !props.disabled && lighten(0.4, props.theme.colors.primary)};
+      !props.disabled && props.theme.title === 'light'
+        ? lighten(0.4, props.theme.colors.primary)
+        : darken(0.3, props.theme.colors.primary)};
   }
 `

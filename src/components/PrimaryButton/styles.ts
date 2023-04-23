@@ -5,15 +5,16 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  width: ${(props) => props.style?.width || '350px'};
-  height: 50px;
-  gap: 5px;
+  padding: 12px 16px;
+  line-height: 160%;
+  gap: 8px;
 
-  border-radius: 5px;
+  border-radius: 4px;
+
+  font-size: ${(props) => props.theme.fontSize.base};
 
   background: ${(props) => props.theme.colors.primary};
-  color: ${(props) => props.theme.colors.background};
+  color: ${(props) => props.theme.colors.white};
 
   &:disabled {
     color: ${(props) => shade(0.1, props.theme.colors.background)};

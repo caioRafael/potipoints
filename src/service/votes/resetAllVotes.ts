@@ -1,5 +1,5 @@
 import { ref, set } from 'firebase/database'
-import { IRoomUser } from '../../context/AuthContext'
+import { IRoomUser } from '../../context/auth'
 import { database } from '../firebase'
 
 export async function resetAllVotes(roomCode: string, users: IRoomUser[]) {

@@ -20,7 +20,7 @@ export const Button = styled.button`
   &:disabled {
     color: ${(props) => shade(0.1, props.theme.colors.background)};
     background: ${(props) => shade(0.05, props.theme.colors.primary)};
-    cursor: default;
+    cursor: not-allowed;
   }
 
   &:hover:not(:disabled) {

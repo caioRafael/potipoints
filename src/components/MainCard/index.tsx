@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useState, useMemo } from 'react'
 import { Avatar, RightClickMenu } from '..'
-import { IRoomUser } from '../../context/AuthContext'
+import { IRoomUser } from '../../context/auth'
 import { IItemMenu, IRightClickMenu } from '../RightClickMenu'
 import { MainCardStyles } from './styles'
 import { useParams } from 'react-router-dom'
