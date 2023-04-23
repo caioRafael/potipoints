@@ -15,6 +15,8 @@ import AlertDialog from './AlertDialog'
 import DefaultButton from './DefaultButton'
 import IconButton from './IconButton'
 import Popover from './Popover'
+import Modal from './Modal'
+import LoadScreen from './LoadScreen'
 
 export {
   AlertDialog,
@@ -34,4 +36,6 @@ export {
   RightClickMenu,
   Popover,
   VersionFooter,
+  Modal,
+  LoadScreen,
 }

@@ -9,7 +9,7 @@ import {
 import { FcGoogle } from 'react-icons/fc'
 import { BsGithub, BsMicrosoft } from 'react-icons/bs'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { DefaultButton, IconButton, Popover } from '../../components'
 import { useAuth } from '../../hooks/useAuth'
 import FullLogo from '../../assets/logo-new.svg'
@@ -21,6 +21,7 @@ import { SigInMethodEnum } from '../../enums/SigInEnum'
 function EnterRoom() {
   const { signIn, code: roomCode, error } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     if (error) {
@@ -33,7 +34,7 @@ function EnterRoom() {
     }
   }, [error])
 
-  const [code, setCode] = useState<string>('')
+  const [code, setCode] = useState<string>(searchParams.get('code') || '')
 
   const onEnterRoom = async (method: number) => {
     await signIn(method, code)
@@ -55,6 +56,7 @@ function EnterRoom() {
           placeholder="Código da sala"
           aria-placeholder="Código da sala"
           onChange={(e) => setCode(e.target.value)}
+          value={code}
         />
 
         <Popover
