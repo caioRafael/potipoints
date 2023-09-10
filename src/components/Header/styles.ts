@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { darken, lighten } from 'polished'
+import { screens } from '../../styles/screens'
 
 export const HeaderStyles = styled.header`
   width: 100vw;
 
-  background: ${(props) => props.theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
+
   color: ${(props) => props.theme.colors.primary};
   border-bottom: 1px solid ${(props) => props.theme.colors.borderLight};
 
@@ -22,7 +24,10 @@ export const HeaderStyles = styled.header`
 `
 
 export const LogoHeader = styled.img`
-  width: 180px;
+  width: 120px;
+  @media ${screens.laptop} {
+    width: 180px;
+  }
 `
 
 export const HeaderContainer = styled.div`
@@ -40,7 +45,7 @@ export const UserContent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 
   p {
     font-weight: 600;

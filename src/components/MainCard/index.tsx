@@ -12,6 +12,21 @@ interface MainCardProps {
   reveled?: boolean
 }
 
+const randomPhases = [
+  'sorria, você está sendo filmado 🧐',
+  '4️⃣0️⃣4️⃣ not found',
+  '👀',
+  'cadê o voto? 🤔',
+  'estamos com problemas para carregar informações ao usuário curioso 😯',
+  'não há bug aqui, continue procurando 🪲',
+  'boa tentativa, mas não há nada aqui 😛',
+  '89 + 55 😎',
+]
+
+function generateRandomPhase() {
+  return randomPhases[Math.floor(Math.random() * randomPhases.length)]
+}
+
 export function MainCard({ user, reveled = false }: MainCardProps) {
   const { code } = useParams()
   const { isAdmin } = useAdmin(code as string)
@@ -60,7 +75,8 @@ export function MainCard({ user, reveled = false }: MainCardProps) {
       >
         <div className="card-inner">
           <div className="card-front">
-            <span>{userVote}</span>
+            {reveled && <span>{userVote}</span>}
+            {!reveled && <span className="f">{generateRandomPhase()}</span>}
           </div>
           <div className="card-back">
             <Avatar src={user.avatar_url} name={user.name} fallbackAsPicture />

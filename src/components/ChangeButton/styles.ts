@@ -1,16 +1,21 @@
 import { darken } from 'polished'
 import styled from 'styled-components'
+import { screens } from '../../styles/screens'
 
 export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
+
+  font-size: ${(props) => props.theme.fontSize.base};
+  line-height: 160%;
+
   width: ${(props) => props.style?.width || '350px'};
-  height: 50px;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: 8px 12px;
 
   border: solid 1px ${(props) => props.theme.colors.border};
-  border-radius: 5px;
+  border-radius: ${(props) => props.theme.radius.sm};
 
   background: transparent;
   color: ${(props) => props.theme.colors.primary};
@@ -24,5 +29,9 @@ export const Button = styled.button`
     background-color: ${(props) => darken(0.05, props.theme.colors.background)};
     color: ${(props) => props.theme.colors.disabled};
     cursor: not-allowed;
+  }
+
+  @media ${screens.laptop} {
+    padding: 12px 16px;
   }
 `

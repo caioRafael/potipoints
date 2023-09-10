@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { screens } from '../../../../styles/screens'
 
 export const Container = styled.div`
   display: flex;
@@ -23,12 +24,14 @@ export const RoomCode = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  padding: 0 15px;
   gap: 16px;
-  height: 50px;
+
+  font-size: ${(props) => props.theme.fontSize.base};
+  line-height: 160%;
+  padding: 8px 12px;
 
   border: solid 1px ${(props) => props.theme.colors.border};
-  border-radius: 5px;
+  border-radius: ${(props) => props.theme.radius.sm};
 
   background: transparent;
   color: ${(props) => props.theme.colors.primary};
@@ -36,5 +39,9 @@ export const RoomCode = styled.button`
   &:hover {
     transition: 0.3s;
     opacity: 0.8;
+  }
+
+  @media ${screens.laptop} {
+    padding: 12px 16px;
   }
 `
