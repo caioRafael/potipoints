@@ -17,11 +17,9 @@ function App() {
     [mode],
   )
 
-  console.log(mode)
-
   return (
     <ThemeProvider theme={theme}>
-      <VersionFooter>V{version}</VersionFooter>
+      <VersionFooter>alpha release v{version}</VersionFooter>
       <Global />
       <Routes />
       <ToastContainer />

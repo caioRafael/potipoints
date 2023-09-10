@@ -59,9 +59,7 @@ const Average: FC<AverageProps> = ({ reveled }) => {
       {betterAcceptance !== '' && (
         <AverageContainer reveled={reveled}>
           <h2>Escolha sugerida:</h2>
-          <Card aria-readonly={room?.result_reveled}>
-            <h1>{betterAcceptance}</h1>
-          </Card>
+          <Card aria-readonly={room?.result_reveled}>{betterAcceptance}</Card>
         </AverageContainer>
       )}
       {!!votesAverage && (
@@ -72,7 +70,7 @@ const Average: FC<AverageProps> = ({ reveled }) => {
       )}
       {isCoffeeTime && (
         <AverageContainer reveled={reveled} delay={0.2}>
-          <h3>Hora do café!</h3>
+          Hora do café!
         </AverageContainer>
       )}
     </Container>

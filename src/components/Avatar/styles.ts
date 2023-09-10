@@ -1,5 +1,17 @@
 import { darken } from 'polished'
 import styled from 'styled-components'
+import { screens } from '../../styles/screens'
+import { User } from 'phosphor-react'
+
+export const UserIcon = styled(User)`
+  width: 24px;
+  height: 24px;
+
+  @media ${screens.laptop} {
+    width: 32px;
+    height: 32px;
+  }
+`
 
 export const Container = styled.div`
   .AvatarRoot {
@@ -13,8 +25,13 @@ export const Container = styled.div`
     height: 45px;
     border-radius: 100%;
     border: solid 2px ${(props) => darken(0.05, props.theme.colors.primary)};
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
+
+    @media ${screens.laptop} {
+      width: 50px;
+      height: 50px;
+    }
   }
 
   .AvatarImage {
@@ -32,8 +49,12 @@ export const Container = styled.div`
     justify-content: center;
     background-color: white;
     color: ${(props) => props.theme.colors.primary};
-    font-size: 20px;
+    font-size: ${(props) => props.theme.fontSize.sm};
     line-height: 1;
     font-weight: 700;
+
+    @media ${screens.laptop} {
+      font-size: 20px;
+    }
   }
 `

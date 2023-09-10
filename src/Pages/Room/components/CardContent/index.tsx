@@ -47,6 +47,10 @@ const CardContent: FC = () => {
 
   const isDisabledCardList = room?.result_reveled || !room || !user
 
+  const verifyCardIsSelected = (item: number) => {
+    return String(myVote) === String(item)
+  }
+
   return (
     <Container>
       {newCardList?.map((item) => (
@@ -54,10 +58,9 @@ const CardContent: FC = () => {
           key={item}
           onClick={() => handleChangeVote(item)}
           disabled={isDisabledCardList}
-          // gambiarra para quando o voto é zero, precisa ser corrigida depois
-          isCardSelected={String(myVote) === String(item)}
+          isCardSelected={verifyCardIsSelected(item)}
         >
-          <h1>{item}</h1>
+          {item}
         </Card>
       ))}
       <Card
@@ -65,14 +68,14 @@ const CardContent: FC = () => {
         disabled={isDisabledCardList}
         isCardSelected={myVote === '?'}
       >
-        <h1>?</h1>
+        ?
       </Card>
       <Card
         onClick={() => handleChangeVote('☕')}
         disabled={isDisabledCardList}
         isCardSelected={myVote === '☕'}
       >
-        <h1>☕</h1>
+        ☕
       </Card>
     </Container>
   )

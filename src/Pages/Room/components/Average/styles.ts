@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components'
+import { screens } from '../../../../styles/screens'
 
 interface AverageProps {
   reveled?: boolean
@@ -18,7 +19,8 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: row;
   gap: 16px;
-  position: relative;
+  position: fixed;
+  bottom: 0;
 
   .lottieAnimation {
     position: absolute;
@@ -40,8 +42,16 @@ export const AverageContainer = styled.span<AverageProps>`
   animation-delay: ${(props) => `${props.delay}s`};
   overflow: hidden;
 
-  p {
-    font-size: 28px;
+  p,
+  h2 {
+    font-size: ${(props) => props.theme.fontSize['2xl']};
     font-weight: bold;
+  }
+
+  @media ${screens.laptop} {
+    h2,
+    p {
+      font-size: ${(props) => props.theme.fontSize['3xl']};
+    }
   }
 `

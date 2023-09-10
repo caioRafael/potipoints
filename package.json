@@ -1,7 +1,7 @@
 {
   "name": "planning-points",
   "private": true,
-  "version": "0.1.23",
+  "version": "0.1.25",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { Root, Image, Fallback } from '@radix-ui/react-avatar'
 import { getShortName } from '../../utils/getShortName'
-import { Container } from './styles'
-import { User } from 'phosphor-react'
+import { Container, UserIcon } from './styles'
 
 interface AvatarProps {
   src: string
@@ -18,7 +17,7 @@ const Avatar: FC<AvatarProps> = (props) => {
         <Image className="AvatarImage" src={src} alt={`avatar de ${name}`} />
         <Fallback className="AvatarFallback" delayMs={600}>
           {fallbackAsPicture ? (
-            <User size={32} weight="bold" />
+            <UserIcon weight="bold" />
           ) : (
             getShortName(name as string)
           )}
