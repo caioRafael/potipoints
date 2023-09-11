@@ -11,8 +11,6 @@ export const HeaderStyles = styled.header`
   color: ${(props) => props.theme.colors.primary};
   border-bottom: 1px solid ${(props) => props.theme.colors.borderLight};
 
-  padding: 12px 16px;
-
   span {
     font-size: 28px;
     font-weight: bold;
@@ -36,9 +34,15 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  padding: 12px 16px;
+
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
+
+  @media ${screens.laptop} {
+    padding: 12px 32px;
+  }
 `
 
 export const UserContent = styled.div`

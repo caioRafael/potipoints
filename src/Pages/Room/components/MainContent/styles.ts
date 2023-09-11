@@ -15,7 +15,7 @@ export const Container = styled.div`
 
   @media ${screens.laptop} {
     padding: ${({ theme }) => theme.spacing.xl};
-    gap: ${({ theme }) => theme.spacing.lg};
+    gap: ${({ theme }) => theme.spacing.xl};
   }
 `
 
