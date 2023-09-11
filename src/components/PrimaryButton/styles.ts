@@ -1,11 +1,12 @@
 import { shade } from 'polished'
 import styled from 'styled-components'
+import { screens } from '../../styles/screens'
 
 export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
+  padding: 8px 12px;
   line-height: 160%;
   gap: 8px;
 
@@ -25,5 +26,9 @@ export const Button = styled.button`
   &:hover &:not(:disabled) {
     transition: 0.3s;
     opacity: 0.8;
+  }
+
+  @media ${screens.laptop} {
+    padding: 12px 16px;
   }
 `

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { screens } from '../../../../styles/screens'
 
 export const Container = styled.div`
   display: flex;
@@ -6,11 +7,16 @@ export const Container = styled.div`
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 24px;
+  padding: ${({ theme }) => theme.spacing.lg};
   flex: 1px;
-  gap: 24px;
+  gap: ${({ theme }) => theme.spacing.md};
 
   width: 100%;
+
+  @media ${screens.laptop} {
+    padding: ${({ theme }) => theme.spacing.xl};
+    gap: ${({ theme }) => theme.spacing.lg};
+  }
 `
 
 export const Card = styled.div`

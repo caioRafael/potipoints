@@ -1,12 +1,18 @@
 import { darken, lighten } from 'polished'
 import styled from 'styled-components'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { screens } from '../../styles/screens'
 
 export const DropdownButton = styled(DropdownMenu.Trigger)`
-  width: 150px;
-  padding: 12px 16px;
+  font-size: ${(props) => props.theme.fontSize.base};
+  line-height: 160%;
+  padding: 8px 12px;
 
-  font-size: 16px;
+  @media ${screens.laptop} {
+    width: 150px;
+    padding: 12px 16px;
+  }
+
   font-weight: bold;
   user-select: none;
 
@@ -20,9 +26,9 @@ export const DropdownButton = styled(DropdownMenu.Trigger)`
   gap: ${(props) => props.theme.spacing.sm};
 
   span {
-    font-size: 16px;
+    font-size: ${(props) => props.theme.fontSize.base};
+    line-height: 160%;
     font-weight: bold;
-    user-select: none;
   }
 
   svg {

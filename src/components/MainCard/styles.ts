@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { shade } from 'polished'
+import { screens } from '../../styles/screens'
 
 interface MainCardProps {
   reveled: boolean
@@ -12,20 +13,32 @@ export const MainCardStyles = styled.div<MainCardProps>`
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 100px;
 
   strong {
     margin-top: 4px;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    @media ${screens.laptop} {
+      font-size: inherit;
+    }
+  }
+
+  .f {
+    visibility: hidden;
   }
 
   .card-inner {
     transform: ${(props) => (props.reveled ? 'rotateY(180deg)' : '')};
 
-    width: 80px;
-    height: 110px;
+    width: 50px;
+    height: 70px;
     transform-style: preserve-3d;
     position: relative;
     transition: all 0.5s;
+
+    @media ${screens.laptop} {
+      width: 80px;
+      height: 110px;
+    }
   }
 
   .card-front,
@@ -43,8 +56,12 @@ export const MainCardStyles = styled.div<MainCardProps>`
           ? shade(0.1, props.theme.colors.primary)
           : props.theme.colors.border};
     span {
-      font-size: 32px;
+      font-size: ${(props) => props.theme.fontSize['3xl']};
       font-weight: bold;
+
+      @media ${screens.laptop} {
+        font-size: ${(props) => props.theme.fontSize['4xl']};
+      }
     }
 
     width: 100%;

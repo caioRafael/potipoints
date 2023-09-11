@@ -7,8 +7,6 @@ export const Global = createGlobalStyle`
     box-sizing: border-box;
     font-smooth: antialiased;
     line-height: 160%;
-    transition-duration: 0.3s;
-    transition-property: color, background-color, border
   }
   
   @media (max-width: 1080px) {
@@ -23,7 +21,9 @@ export const Global = createGlobalStyle`
     }
   }
   body{
-    background: ${(props) => props.theme.colors.background};
+    background-color: ${(props) => props.theme.colors.background};
+    opacity: 1;
+    
     color: ${(props) => props.theme.colors.color};
   }
   
