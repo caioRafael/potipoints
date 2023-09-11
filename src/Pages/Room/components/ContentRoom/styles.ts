@@ -7,16 +7,16 @@ export const Content = styled.div`
   align-items: center;
 
   width: 100%;
-  max-width: 1024px;
+  max-width: 1440px;
   height: 100%;
 
-  padding: 0 32px;
-
+  padding: 0 16px;
   gap: 8px;
   margin: 16px 16px 0px;
 
   @media ${screens.laptop} {
     gap: 16px;
-    margin: 24px 24px 0px;
+    padding: 0 32px;
+    margin: 24px 0px;
   }
 `
